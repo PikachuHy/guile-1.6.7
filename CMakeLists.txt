@@ -53,12 +53,17 @@ if (WIN32)
     # undefined reference to `crypt'
     unset(HAVE_CRYPT)
     set(HAVE_SELECT 1)
+elseif(MSVC)
+    unset(HAVE_UNISTD_H)
 endif ()
 configure_file (${guile_SOURCE_DIR}/cmake/config.h.cmake                 ${guile_BINARY_DIR}/config.h)
 configure_file (${guile_SOURCE_DIR}/cmake/version.h.cmake       ${guile_BINARY_DIR}/libguile/version.h)
 configure_file (${guile_SOURCE_DIR}/cmake/libpath.h.cmake       ${guile_BINARY_DIR}/libguile/libpath.h)
 configure_file (${guile_SOURCE_DIR}/cmake/config.h.cmake                 ${guile_BINARY_DIR}/libguile/scmconfig.h)
 set(common_options "-DHAVE_CONFIG_H -I${guile_SOURCE_DIR} -I${guile_BINARY_DIR} -I${guile_SOURCE_DIR}/libguile-ltdl")
+if (MSVC)
+    set(common_options "${common_options} -D__MSVC__")
+endif ()
 execute_process(
         COMMAND ${PYTHON_PATH}  ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py
         ${guile_SOURCE_DIR}
@@ -66,11 +71,24 @@ execute_process(
         ${common_options}
 )
 add_executable(guile-main libguile/guile.c)
-target_link_libraries(guile-main guile Math::Math dl)
+target_link_libraries(guile-main guile)
+if (NOT MSVC)
+    target_link_libraries(guile-main dl)
+endif ()
+target_include_directories(guile-main PRIVATE ${guile_SOURCE_DIR} ${guile_BINARY_DIR} ${guile_SOURCE_DIR}/libguile-ltdl)
+if (MSVC)
+    message(INFO "MSVC")
+    target_compile_definitions(guile PUBLIC -D__MSVC__)
+else()
+    target_link_libraries(guile-main Math::Math)
+endif ()
 if (WIN32)
     # undefined reference to `crypt'
     # undefined reference to `regfree'
-    target_link_libraries(guile-main ws2_32 regex)
+    target_link_libraries(guile-main ws2_32)
+    if (NOT MSVC)
+        target_link_libraries(guile-main regex)
+    endif ()
 endif ()
 target_sources(
         guile PRIVATE
@@ -114,7 +132,7 @@ target_sources(
         libguile/hash.c
         libguile/list.c
         libguile/async.c
-        libguile/regex-posix.c
+        #libguile/regex-posix.c
         libguile/properties.c
         libguile/strop.c
         libguile/srcprop.c
@@ -135,8 +153,8 @@ target_sources(
         libguile/guardians.c
         libguile/stackchk.c
         libguile/gh_list.c
-        libguile/posix.c
-        libguile/dynl.c
+        #libguile/posix.c
+        #libguile/dynl.c
         libguile/throw.c
         libguile/strorder.c
         #libguile/coop-threads.c
@@ -145,7 +163,7 @@ target_sources(
         libguile/inet_aton.c
         libguile/environments.c
         libguile/fluids.c
-        libguile/scmsigs.c
+        #libguile/scmsigs.c
         libguile/dynwind.c
         libguile/cpp_errno.c
         libguile/iselect.c
@@ -153,7 +171,7 @@ target_sources(
         libguile/eval.c
         libguile/script.c
         libguile/vports.c
-        libguile/extensions.c
+        #libguile/extensions.c
         libguile/alist.c
         libguile/symbols-deprecated.c
         libguile/procs.c
@@ -182,5 +200,16 @@ target_sources(
         libguile/gsubr.c
         libguile/error.c
         libguile/goops.c
-        libguile-ltdl/guile-ltdl.c
+        #libguile-ltdl/guile-ltdl.c
 )
+if (NOT MSVC)
+    target_sources(
+            guile PRIVATE
+            libguile/regex-posix.c
+            libguile/posix.c
+            libguile/dynl.c
+            libguile/scmsigs.c
+            libguile/extensions.c
+            libguile-ltdl/guile-ltdl.c
+    )
+endif ()

@@ -1370,7 +1370,7 @@ SCM_DEFINE (scm_seek, "seek", 3, 0, 0,
 //  return ret;
 //}
 #endif /* __MINGW32__ */
-
+#ifndef __MSVC__
 SCM_DEFINE (scm_truncate_file, "truncate-file", 1, 1, 0,
             (SCM object, SCM length),
 	    "Truncates the object referred to by @var{object} to at most\n"
@@ -1429,7 +1429,7 @@ SCM_DEFINE (scm_truncate_file, "truncate-file", 1, 1, 0,
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
-
+#endif
 SCM_DEFINE (scm_port_line, "port-line", 1, 0, 0,
             (SCM port),
 	    "Return the current line number for @var{port}.")
