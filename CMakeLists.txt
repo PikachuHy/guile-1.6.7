@@ -204,7 +204,9 @@ target_sources(
         libguile/goops.c
         #libguile-ltdl/guile-ltdl.c
 )
-if (NOT MSVC)
+if(MSVC)
+    target_sources(guile PRIVATE msvc/dynl.c)
+else (NOT MSVC)
     target_sources(
             guile PRIVATE
             libguile/regex-posix.c

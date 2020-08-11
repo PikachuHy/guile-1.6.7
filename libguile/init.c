@@ -577,9 +577,7 @@ scm_init_guile_1 (SCM_STACKITEM *base)
   scm_init_simpos ();
   scm_init_load_path ();
   scm_init_standard_ports ();  /* Requires fports */
-#ifndef __MSVC__
   scm_init_dynamic_linking ();
-#endif
   scm_init_lang ();
   scm_init_script ();
 
