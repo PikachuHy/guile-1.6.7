@@ -89,6 +89,8 @@ if (WIN32)
     if (NOT MSVC)
         target_link_libraries(guile-main regex)
     endif ()
+else()
+    target_link_libraries(guile-main crypt)
 endif ()
 target_sources(
         guile PRIVATE
