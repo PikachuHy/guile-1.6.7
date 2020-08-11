@@ -77,7 +77,7 @@ target_sources(
         libguile/gh_eval.c
         libguile/continuations.c
         libguile/hooks.c
-        libguile/memmove.c
+        #libguile/memmove.c
         libguile/macros.c
         libguile/eq.c
         libguile/symbols.c
