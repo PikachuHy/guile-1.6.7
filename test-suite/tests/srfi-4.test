@@ -1,0 +1,203 @@
+;;;; srfi-4.test --- Test suite for Guile's SRFI-4 functions. -*- scheme -*-
+;;;; Martin Grabmueller, 2001-06-26
+;;;;
+;;;; Copyright (C) 2001 Free Software Foundation, Inc.
+;;;; 
+;;;; This program is free software; you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation; either version 2, or (at your option)
+;;;; any later version.
+;;;; 
+;;;; This program is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;; 
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with this software; see the file COPYING.  If not, write to
+;;;; the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+;;;; Boston, MA 02111-1307 USA
+
+(use-modules (srfi srfi-4))
+
+(define (test-uvector kind u? uconstruct umake uset uref ulen
+                      uvec->list list->uvec
+                      low high)
+
+  (define (test-passthrough-write umake value)
+    (pass-if (string-append kind " vector write->read idempotency")
+      (let* ((v (umake 5 value))
+             (str-rep (object->string v))
+             (read-v (with-input-from-string str-rep read)))
+        (equal? v read-v))))
+
+  (with-test-prefix (string-append kind " vector")
+    
+    (pass-if (string-append kind "vector? success")
+      (u? (umake 0)))
+      
+    (pass-if (string-append kind "vector? failure")
+      (not (u? 0)))
+    
+    (pass-if (string-append kind "vector-length success 1")
+      (= (ulen (uconstruct)) 0))
+    
+    (pass-if (string-append kind "vector-length success 2")
+      (= (ulen (uconstruct 3)) 1))
+    
+    (pass-if (string-append kind "vector-length failure")
+      (not (= (ulen (uconstruct 3)) 3)))
+    
+    (pass-if (string-append kind "vector-ref")
+      (= (uref (uconstruct 1 2 3) 1) 2))
+    
+    (pass-if (string-append kind "vector->list/list->vector")
+      (equal? (uvec->list (uconstruct 1 2 3 4))
+              (uvec->list (list->uvec '(1 2 3 4)))))
+
+    (test-passthrough-write umake 0)
+    (test-passthrough-write umake 1)
+    
+    (if (and low high)
+        ;; make sure we can store and retrieve values, including limits.
+        (let ((testvals `(("0" 0)
+                          ("low" ,low)
+                          ("high" ,high))))      
+
+          (test-passthrough-write umake low)
+          (test-passthrough-write umake high)
+
+          (for-each
+           (lambda (test)
+             (pass-if (string-append (string-append "fill " (car test)))
+               (= (cadr test) (uref (umake 1 (cadr test)) 0)))
+             (pass-if (string-append "set " (car test))
+               (let ((vec (umake 1)))
+                 (uset vec 0 (cadr test))
+                 (= (cadr test) (uref vec 0)))))
+           testvals)))
+    
+    (if (and low high)
+        ;; make sure we can't store and retrieve values outside the limits
+        (let ((testvals `(("(- low 1)" ,(- low 1))
+                          ("(+ high 1)" ,(+ high 1)))))
+          
+          (for-each
+           (lambda (test)
+             (pass-if-exception (string-append "fill " (car test))
+                 exception:out-of-range
+               (umake 1 (cadr test)))
+             (pass-if-exception (string-append "set " (car test))
+                 exception:out-of-range
+               (uset (umake 1) 0 (cadr test))))
+           testvals)))))
+
+(test-uvector "u8"
+              u8vector?
+              u8vector
+              make-u8vector
+              u8vector-set!
+              u8vector-ref
+              u8vector-length
+              u8vector->list
+              list->u8vector
+              0 255)
+
+(test-uvector "s8"
+              s8vector?
+              s8vector
+              make-s8vector
+              s8vector-set!
+              s8vector-ref
+              s8vector-length
+              s8vector->list
+              list->s8vector
+              -128 127)
+
+(test-uvector "u16"
+              u16vector?
+              u16vector
+              make-u16vector
+              u16vector-set!
+              u16vector-ref
+              u16vector-length
+              u16vector->list
+              list->u16vector
+              0 65535)
+
+(test-uvector "s16"
+              s16vector?
+              s16vector
+              make-s16vector
+              s16vector-set!
+              s16vector-ref
+              s16vector-length
+              s16vector->list
+              list->s16vector
+              -32768 32767)
+
+(test-uvector "u32"
+              u32vector?
+              u32vector
+              make-u32vector
+              u32vector-set!
+              u32vector-ref
+              u32vector-length
+              u32vector->list
+              list->u32vector
+              0 (- (expt 2 32) 1))
+
+(test-uvector "s32"
+              s32vector?
+              s32vector
+              make-s32vector
+              s32vector-set!
+              s32vector-ref
+              s32vector-length
+              s32vector->list
+              list->s32vector
+              (- (expt 2 31)) (- (expt 2 31) 1))
+
+(test-uvector "u64"
+              u64vector?
+              u64vector
+              make-u64vector
+              u64vector-set!
+              u64vector-ref
+              u64vector-length
+              u64vector->list
+              list->u64vector
+              0 (- (expt 2 64) 1))
+
+(test-uvector "s64"
+              s64vector?
+              s64vector
+              make-s64vector
+              s64vector-set!
+              s64vector-ref
+              s64vector-length
+              s64vector->list
+              list->s64vector
+              (- (expt 2 63)) (- (expt 2 63) 1))
+
+(test-uvector "f32"
+              f32vector?
+              f32vector
+              make-f32vector
+              f32vector-set!
+              f32vector-ref
+              f32vector-length
+              f32vector->list
+              list->f32vector
+              #f #f)
+
+(test-uvector "f64"
+              f64vector?
+              f64vector
+              make-f64vector
+              f64vector-set!
+              f64vector-ref
+              f64vector-length
+              f64vector->list
+              list->f64vector
+              #f #f)

@@ -1,0 +1,278 @@
+Guile BUGS database snapshot 2004-12-21 17:25:51 UTC -- do not edit!
+Please send bug reports to bug-guile@gnu.org (after checking this file).
+
+name: 1
+summary: (debug-disable 'debug) has no effect if first form in ~/.guile
+reported: Sven.Hartrumpf@fernuni-hagen.de, 2001-08-31
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Neil Jerram, 2001-11-07, guile-core, HEAD
+
+name: 10
+summary: embedded libltdl masks system version unconditionally
+reported: grib@linuxdevel.com, 2001-11-04
+affects: branch_release-1-6 branch_release-1-4
+fixed: rlb, 2001-11-19, guile-core, branch_release-1-6
+fixed: ttn, 2002-02-09, guile-core, branch_release-1-4
+
+name: 11
+summary: (ice-9 optargs) #:rest arg polluted by keys/values
+reported: ttn / 2001-11-09
+fixed: mvo@zagadka.de, 2001-11-09
+
+name: 12
+summary: goops class redefinition not signalling "no such accessor" error
+reported: wawrzin@cs.tu-berlin.de, 2001-12-04
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Mikael Djurfeldt <djurfeldt@nada.kth.se>, 2003-04-20, HEAD branch_release-1-6
+
+name: 13
+summary: incorrect error reporting after stack overflow
+reported: Panagiotis Vossos <jacbre@internet.gr>, 2002-02-19
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: 1000-tru64-check-fails
+summary: make check fails on Tru64 4.0F
+reported: David C Sterratt <david.c.sterratt@ed.ac.uk>, 2002-02-08
+affects: branch_release-1-6
+
+name: 14
+summary: strange gc loop caused by trap misuse
+reported: Neil Jerram <neil@ossau.uklinux.net>, 2002-02-03
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: 15
+summary: (expt 0 0) -> 0
+reported: rlb, 2001-03-21
+affects: HEAD branch_release-1-4
+see-also-dir: 15.stuff
+test-case: expt-0-0.scm
+
+name: 2
+summary: documentation mirroring not complete
+reported: lord@regexps.com, 2001-08
+fixed: ttn@glug.org, 2002-03-17
+
+name: 3
+summary: design decisions not recorded
+reported: lord@regexps.com, 2001-08
+
+name: 4
+summary: named-let transform evaluates initvalue in the wrong scope
+reported-by: agj@alum.mit.edu, 2001-09-21
+affects: HEAD branch_release-1-6 branch_release-1-4
+see-also-dir: 4.stuff
+test-case: named-let-xform.scm
+fixed: Dirk Herrmann, 2001-11-17, guile-core, HEAD
+
+name: 1001-local-eval-error-backtrace-segfaults
+summary: local-eval error bactrace segfaults
+reported: M Johnson <johns776@pilot.msu.edu>, 2002-02-12
+affects: HEAD
+see-also-dir: 1001.stuff
+test-case: segf-v1.scm
+test-case: segf-v2.scm (ignore for now)
+fixed: Neil Jerram, 2002-07-13, guile-core, HEAD
+
+name: 1002-guile-www-does-not-support-ssl
+summary: guile-www does not support ssl
+reported: Bill Gribble <grib@linuxdevel.com>, 2002-02-07
+
+name: 1003-complex-division-sometimes-overflows
+summary: complex division sometimes overflows
+reported: John W. Eaton <jwe@bevo.che.wisc.edu>, 2002-03-05
+affects: branch_release-1-6, HEAD
+see-also-dir: 1003.stuff
+patch: denominator-special-casing.diff
+test-case: complex-divs.scm
+fixed: mvo@zagadka.de, 2002-03-11, guile-core, branch_release-1-6
+fixed: mvo@zagadka.de, 2002-03-11, guile-core, HEAD
+
+name: 1004-socket-accept-blocks-all-threads
+summary: all threads blocked on (accept socket)
+reported: Lamy Jean-Baptiste <jiba@tuxfamily.org>, 2002-03-04
+affects: HEAD branch_release-1-6 branch_release-1-4
+see-also-dir: 1004.stuff
+test-case: socket-accept.scm
+patch: nonblocking-accept.diff
+
+name: 1005-fseek-0-on-socket-dumps-core
+summary: fseek 0 on socket dumps core
+reported: Arno Peters <a.w.peters@ieee.org>, 2002-05-20
+affects: branch_release-1-4
+
+name: 1006-libltdl-omitted-from-guile-config-link
+summary: "guile-config link" command does not include "-lltdl"
+reported: David Allouche <me@davidallouche.net>, 2002-05-09
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: 5
+summary: uniform vector read-hash "e" clashes w/ exactness specification
+reported: kwright@gis.net / 2001-10-07
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Mikael Djurfeldt <mdj@linnaeus>, 2001-10-14, guile-core, branch_release-1-6
+fixed: Mikael Djurfeldt <mdj@linnaeus>, 2001-10-14, guile-core, HEAD
+
+name: 6
+summary: exactness prefix doesn't do nothing gracefully
+reported: kwright@gis.net, 2001-10-09
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: unknown, 2001-10-14, guile-core, branch_release-1-6
+fixed: unknown, 2001-10-14, guile-core, HEAD
+
+name: 7
+summary: readline configuration anomolies not handled gracefully
+reported: kwright@gis.net, 2001-10-17
+
+name: 8
+summary: install requires makeinfo
+reported: kwright@gis.net, 2001-10-17
+
+name: 9
+summary: sibling threads not infinite looping
+reported: giraud@tif.inria.fr, 2001-09-24
+affects: HEAD branch_release-1-6 branch_release-1-4
+see-also-dir: 9.stuff
+test-case: bug.sh
+fixed: mdj, 2001-10-06, guile-core, branch_release-1-6
+fixed: mdj, 2001-10-06, guile-core, HEAD
+
+name: gensym-creates-accessable-symbols
+summary: gensym-creates-accessable-symbols
+reported: rlb, 2002-05-16
+affects: all
+
+name: dynamic-wind-exception-segfault
+summary: interaction of dynamic-wind, call/cc, exceptions and/or handler causes segfault
+reported: Gary Houston <ghouston@arglist.com>, 2002-04-08
+affects: HEAD branch_release-1-4
+
+name: eager-funpos-checking
+summary: the function position is checked too early
+reported: tb@becket.net (Thomas Bushnell, BSG), 2002-05-11
+affects: HEAD branch_release-1-6 branch_release-1-4
+see-also-dir: eager-funpos-checking.stuff
+test-case: efc.scm
+
+name: format-and-small-floats
+summary: ice-9 format fails for small floats and ~f or ~g
+reported: "Nelson H. F. Beebe" <beebe@math.utah.edu>, 2002-05-05
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Marius Vollmer <mvo@zagadka.de>, 2002-05-08, guile-core, HEAD
+
+name: optargs-restargs
+summary: lambda* fails with #:key and "." rest argument
+reported: Christopher Cramer <crayc@pyro.net>, 2002-05-30
+
+name: goops-1
+summary: strangeness with classes defined from C
+reported: Andreas Rottmann <a.rottmann@gmx.at>, 2002-04-17
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Mikael Djurfeldt <djurfeldt@nada.kth.se>, 2003-04-19, HEAD branch_release-1-6
+
+name: goops-class-redefinition
+summary: possible goops class redefinition bug
+reported: "Neil W. Van Dyke" <nwv@neilvandyke.org>, 2002-03-15
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Mikael Djurfeldt <djurfeldt@nada.kth.se>, 2003-04-19, HEAD branch_release-1-6
+
+name: goops-apply-generic
+summary: apply-generic does not work
+reported: Eric E Moore <e.e.moore@sheffield.ac.uk>, 2002-04-21
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: slib-not-shadowing-primitives
+summary: Loading a SLIB module with require does not shadow primitives
+reported: Panagiotis Vossos <jacbre@internet.gr>, 2002-03-11
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: guile-snarf-writes-to-srcdir
+summary: guile-snarf writes to $srcdir, which is not kosher
+reported: Marius Vollmer <mvo@zagadka.de>, 2002-04-08
+affects: HEAD branch_release-1-6
+
+name: imaginary-minus-zero
+summary: imaginary minus zero is dropped
+reported: Marius Vollmer <mvo@zagadka.de>
+
+name: init-thunk-needs-closures
+summary: primitive thunk as goops #:init-thunk causes segv
+reported: "Neil W. Van Dyke" <nwv@neilvandyke.org>, 2002-03-12
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Mikael Djurfeldt <djurfeldt@nada.kth.se>, 2003-04-20, HEAD branch_release-1-6
+
+name: instructions-to-distributors
+summary: we need to properly instruct distributors how to package Guile
+reported: Neil Jerram, 2002
+tags: release-critical-1.8
+affects: HEAD
+
+name: ipv6-not-detected-on-netbsd
+summary: ipv6 in guile 1.5.6: configure bug and fix for NetBSD-1.5.2
+reported: Greg Troxel <gdt@ir.bbn.com>, 2002-03-13
+affects: HEAD branch_release-1-6
+assigned: <mvo@zagadka.de>, 2002-04-24
+fixed: <mvo@zagadka.de>, 2002-05-06, guile-core, HEAD
+fixed: <mvo@zagadka.de>, 2002-05-06, guile-core, branch_release-1-6
+
+name: number-string-number
+summary: (eqv? (string->number (number->string X R) R) X) fails
+reported: Bill Schottstaedt <bil@ccrma.Stanford.EDU>, 2002-10-18
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: numbers-gmp-conversion
+summary: issues to resolve while adding gmp bignums
+reported: Rob Browning <rlb@defaultvalue.org>, 2002-04-21
+affects: HEAD branch_release-1-6 branch_release-1-4
+assigned: Rob Browning <rlb@defaultvalue.org>, 2002-04-21
+
+name: optargs-bound-gone
+summary: 'bound?' from (ice-9 optargs) has been removed but is useful.
+reported: Steve Tell <tell@telltronics.org>, 2002-03-29
+affects: HEAD branch_release-1-6
+fixed: Marius Vollmer <mvo@zagadka.de>, 2002-02-22
+
+name: syncase-quotes-excessively
+summary: syncase quotes hashes and empty applications
+reported: Lynn Winebarger <owinebar@free-expression.org>, 2002-03-30
+reported: Eric E Moore <e.e.moore@sheffield.ac.uk>, 2002-04-23
+affects: HEAD branch_release-1-6 branch_release-1-4
+fixed: Mikael Djurfeldt <djurfeldt@nada.kth.se>, 2003-04-20, HEAD branch_release-1-6
+
+name: string-tokenize-is-wrong
+summary: SRFI-13 string-tokenize is wrong
+reported: Matthias Koeppe <mkoeppe@mail.Math.Uni-Magdeburg.De>, 2002-03-12
+affects: HEAD
+assigned: <mvo@zagadka.de>, 2002-04-24
+
+name: ash-and-inexacts
+summary: ash has problems with inexact numbers
+reported: Bill Schottstaedt <bil@ccrma.Stanford.EDU>, 2003-10-13
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: unhandled-keyargs-should-error
+summary: unhandled keywords to goops "make" (etc) should signal errors
+reported: "Neil W. Van Dyke" <nwv@neilvandyke.org>, 2002-03-09
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: versioning-of-extensions
+summary: dynamic-link can not request a specific interface number
+reported: Rob Browning <rlb@defaultvalue.org>, 2001
+affects: HEAD branch_release-1-6 branch_release-1-4
+assigned: Rob Browning <rlb@defaultvalue.org>, 2002-03-25
+
+name: collecting-fds
+summary: The GC should run when file descriptors are tight
+reported: prj@po.cwru.edu (Paul Jarc), 2003-10
+affects: HEAD branch_release-1-6 branch_release-1-4
+
+name: format-2
+summary: format with ######F
+reported: Bill Schottstaedt <bil@ccrma.Stanford.EDU>, 2003-06-17
+affects: HEAD branch_release-1-6
+fixed: mvo, HEAD
+
+name: random-segfaults
+summary: a couple things that segfault instead of giving an error
+reported: Bill Schottstaedt <bil@ccrma.Stanford.EDU>, 2003-05-31
+affects: HEAD branch_release-1-6
+

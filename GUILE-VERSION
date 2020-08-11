@@ -1,0 +1,54 @@
+# -*-shell-script-*-
+
+GUILE_MAJOR_VERSION=1
+GUILE_MINOR_VERSION=6
+GUILE_MICRO_VERSION=7
+
+GUILE_EFFECTIVE_VERSION=${GUILE_MAJOR_VERSION}.${GUILE_MINOR_VERSION}
+GUILE_VERSION=${GUILE_EFFECTIVE_VERSION}.${GUILE_MICRO_VERSION}
+
+# For automake.
+VERSION=${GUILE_VERSION}
+PACKAGE=guile
+
+# All of the shared lib versioning info.  Right now, for this to work
+# properly, you'll also need to add AC_SUBST calls to the right place
+# in configure.in, add the right -version-info statement to your
+# Makefile.am The only library not handled here is
+# guile-readline/libguile-readline.  It is handled in
+# ./guile-readline/LIBGUILEREADLINE-VERSION.
+
+# See libtool info pages for more information on how and when to
+# change these.
+
+LIBQTHREADS_INTERFACE_CURRENT=15
+LIBQTHREADS_INTERFACE_REVISION=0
+LIBQTHREADS_INTERFACE_AGE=3
+LIBQTHREADS_INTERFACE="${LIBQTHREADS_INTERFACE_CURRENT}:${LIBQTHREADS_INTERFACE_REVISION}:${LIBQTHREADS_INTERFACE_AGE}"
+
+LIBGUILE_INTERFACE_CURRENT=15
+LIBGUILE_INTERFACE_REVISION=0
+LIBGUILE_INTERFACE_AGE=3
+LIBGUILE_INTERFACE="${LIBGUILE_INTERFACE_CURRENT}:${LIBGUILE_INTERFACE_REVISION}:${LIBGUILE_INTERFACE_AGE}"
+
+# NOTE: Until 1.8, you must edit each corresponding .scm file (the one
+# that dynamic-links the relevant lib) if you change the versioning
+# information here to make sure the dynamic-link explicitly loads the
+# right shared lib version.  This requirement should go away before
+# 1.8, as will all the LTHACK variables below -- see TODO.
+
+LIBGUILE_SRFI_SRFI_4_INTERFACE_CURRENT=1
+LIBGUILE_SRFI_SRFI_4_INTERFACE_REVISION=0
+LIBGUILE_SRFI_SRFI_4_INTERFACE_AGE=0
+LIBGUILE_SRFI_SRFI_4_INTERFACE="${LIBGUILE_SRFI_SRFI_4_INTERFACE_CURRENT}:${LIBGUILE_SRFI_SRFI_4_INTERFACE_REVISION}:${LIBGUILE_SRFI_SRFI_4_INTERFACE_AGE}"
+# This must be the actual library major number -- a hack until we get
+# libltdl straightened out.
+LIBGUILE_SRFI_SRFI_4_MAJOR=1
+
+LIBGUILE_SRFI_SRFI_13_14_INTERFACE_CURRENT=1
+LIBGUILE_SRFI_SRFI_13_14_INTERFACE_REVISION=0
+LIBGUILE_SRFI_SRFI_13_14_INTERFACE_AGE=0
+LIBGUILE_SRFI_SRFI_13_14_INTERFACE="${LIBGUILE_SRFI_SRFI_13_14_INTERFACE_CURRENT}:${LIBGUILE_SRFI_SRFI_13_14_INTERFACE_REVISION}:${LIBGUILE_SRFI_SRFI_13_14_INTERFACE_AGE}"
+# This must be the actual library major number -- a hack until we get
+# libltdl straightened out.
+LIBGUILE_SRFI_SRFI_13_14_MAJOR=1

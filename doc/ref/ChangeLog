@@ -1,0 +1,643 @@
+2004-09-07  Kevin Ryde  <user42@zip.com.au>
+
+	* posix.texi (System Identification): Remove software-type, it doesn't
+	exist in the guile core.
+
+2004-08-18  Kevin Ryde  <user42@zip.com.au>
+
+	* posix.texi (Network Sockets and Communication): Add SOCK_RDM and
+	SOCK_SEQPACKET.
+
+	* posix.texi (Internet Socket Client, Internet Socket Server):
+	Correction to socket calls, should be PF_INET not AF_INET (though
+	generally the two are the same value).
+
+2004-08-14  Kevin Ryde  <user42@zip.com.au>
+
+	* srfi-modules.texi (SRFI-13 Predicates): Add string-any and
+	string-every support for char and charset predicates.
+
+2004-08-12  Kevin Ryde  <user42@zip.com.au>
+
+	* srfi-modules.texi (SRFI-13 Miscellaneous): In string-tokenize,
+	correction to token set parameter, as per Marius in the cvs head.
+	Reported by Mike Small.
+
+2004-07-10  Kevin Ryde  <user42@zip.com.au>
+
+	* srfi-modules.texi (SRFI-0): Add srfi-6 to the identifiers provided
+	by default.
+
+2004-07-01  Marius Vollmer  <marius.vollmer@uni-dortmund.de>
+
+	* gh.texi, data-rep.texi: Make sure there is a space between
+	function names and the following opening parentheses everywhere.
+	texinfo.tex relies on this.
+
+2004-06-28  Marius Vollmer  <marius.vollmer@uni-dortmund.de>
+
+	* Makefile.am: Removed home-grown code for HTML generation.
+	Automake does it for us now.
+
+2004-02-01  Rob Browning  <rlb@defaultvalue.org>
+
+	* srfi-modules.texi (SRFI-31): document.
+
+2003-11-09  Kevin Ryde  <user42@zip.com.au>
+
+	* scheme-data.texi (Random): In random, use @code for *random-state*.
+	Reported by Stephen Compall.
+
+2003-10-02  Kevin Ryde  <user42@zip.com.au>
+
+	* scheme-io.texi (String Ports): In call-with-output-string, note proc
+	should not close the port.  In get-output-string, note string must be
+	gotten before closing the port.
+
+2003-08-30  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-modules.texi (Extensions): New text contributed by Aaron
+	VanDevender.
+
+2003-06-14  Kevin Ryde  <user42@zip.com.au>
+
+	* scheme-data.texi (Arithmetic): round is to nearest even.
+
+2003-06-12  Kevin Ryde  <user42@zip.com.au>
+
+	* gh.texi (Scheme to C): In gh_scm2newstr, lenp is size_t* not int*.
+	This changed in guile 1.6, the docs weren't updated.
+
+2003-05-17  Marius Vollmer  <mvo@zagadka.de>
+
+	* posix.texi (socket): Use PF_ instead of AF_ prefix.
+
+2003-05-12  Kevin Ryde  <user42@zip.com.au>
+
+	* scheme-control.texi (Handling Errors): Fix regexp error key, should
+	be `regular-expression-syntax'.
+
+2003-05-08  Kevin Ryde  <user42@zip.com.au>
+
+	* scheme-data.texi (Bitwise Operations): Fix lognot to ones-complement.
+
+2003-04-11  Rob Browning  <rlb@defaultvalue.org>
+
+	* guile.texi: change MANUAL_EDITION to MANUAL-EDITION so we don't
+	choke TeX (thanks to Dale P. Smith).
+
+	* preface.texi: change MANUAL_EDITION to MANUAL-EDITION so we
+	don't choke TeX (thanks to Dale P. Smith).
+
+2003-02-01  Rob Browning  <rlb@defaultvalue.org>
+
+	* Makefile.am: move built files to nodist_ targets so they don't
+	end up in the dist tarfile.
+	(guile_TEXINFOS): remove autoconf-macros.texi.
+	(nodist_guile_TEXINFOS): add autoconf-macros.texi.
+	(autoconf-macros.texi): don't write to $(srcdir) -- breaks
+	distcheck.
+
+2002-12-08  Rob Browning  <rlb@defaultvalue.org>
+
+	* scheme-options.texi (Build Config): add effective-version docs.
+
+2002-10-14  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* intro.texi (Whirlwind Tour): Added pointer to examples
+	directory.
+
+2002-10-03  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* tools.texi (How guile-snarf works): Updated.
+	(Writing your own snarfing macros): New.
+
+2002-09-25  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-debug.texi (Debugging): Make sections into nodes.
+	(Debugging Options): Node removed.
+
+	* scheme-options.texi (Feature Tracking): Brought forward before
+	sections on options.
+	(Runtime Options): New section, to group options-related nodes.
+
+	* scheme-options.texi (Options and Config): Chapter name changed,
+	and intro text improved.
+	(Install Config): Brought forward, and renamed Build
+	Configuration.
+
+	* scheme-options.texi (General option interface): Mention
+	eval-options-interface and debug-options-interface.
+
+	* scheme-debug.texi (Debugging): New node describing source
+	properties.
+
+2002-09-24  Neil Jerram  <neil@ossau.uklinux.net>
+
+	The following doc updates are from Ian Sheldon - thanks!
+	
+	* scheme-data.texi (Appending Strings, Regexp Functions, Match
+	Structures): Add examples.
+	(Regular Expressions): Add instruction to use (ice-9 regex)
+	module.
+
+	* slib.texi (SLIB): Remove duplicate `the'.
+
+2002-09-19  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-utility.texi (Hook Reference): Improvements to hook docs.
+	Thanks to Thien-Thi Nguyen for the patches.
+
+2002-09-16  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* scheme-data.texi (Symbol Props): It's "set-symbol-property!",
+	not "set-symbol-property".  Thanks to Pieter Pareit!
+
+2002-09-15  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* scheme-data.texi: Tell them to use 'provided?' instead of
+	'*feaures*'.
+
+2002-09-09  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* scheme-ideas.texi (Creating a Procedure): Fixed typo.  Thanks to
+	Pieter Pareit!
+
+	* intro.texi: Updated GNu ftp server name.  Use "-lguile" instead
+	of "libguile.a".  Some small fixes/improvements.
+	
+	* scheme-reading.texi: Added www.schemrs.org.  Removed foldoc,
+	it's too generic.  Updated 'teach yourself ...' URL.
+
+2002-08-27  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* scheme-modules.texi: Interbranch syncing.
+
+2002-08-08  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* posix.texi, scheme-evaluation.texi, scheme-memory.texi,
+	scheme-modules.texi: More interbranch syncing.
+
+	* new-docstrings.texi, posix.texi, scheme-memory.texi,
+	scheme-modules.texi: Merge recent updates from unstable branch.
+
+2002-08-07  Marius Vollmer  <marius.vollmer@uni-dortmund.de>
+
+	* scheme-binding.texi: Don't talk about 'bound?' which is gone.
+	Thanks to Christopher Cramer.
+
+2002-07-16  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-options.texi (Debugger options): New subsection
+	describing stack overflow and what to do about it.
+
+2002-04-28  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* gh.texi, data-rep.texi: Moved `@deftyp {Data type} SCM' line
+	from gh.texi to data-rep.texi.  Both files already had similar
+	descriptions for SCM.  Given that gh.texi is deprecated, looking
+	up `SCM' in the index should take one to the primary location
+	rather than deprecated section.  Hence this change.  Added
+	`@deftp' for scm_t_bits data type so that a proper index entry is
+	added for this.  Thanks to Richard Y. Kim!
+	
+	* data-rep.texi (Subrs): Changed scm_make_gsubr to
+	scm_c_define_gsubr.  Thanks to Richard Y. Kim!
+
+2002-04-20  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-intro.texi (Scheme Layout), scm.texi (Reference Layout):
+	Node moved from a to b.
+
+	* guile.texi (Scheme Intro, Basic Ideas, Guile Scripting, Command
+	Line Handling, Debugging Features, Autoconf Support, Miscellaneous
+	Tools, Further Reading): Moved to new Part II.
+
+	* preface.texi (Manual Layout): Part numbers updated accordingly.
+
+	* guile.texi (Top): Move API Overview node to beginning of Guile
+	API Reference part.
+	(Part II: Writing and Running Guile Scheme): New part; will
+	contain content from `Programming with Guile' that pertains to
+	writing and using Guile on the Scheme level.
+
+	* scm.texi (API Overview): Renamed from `Guile API'.
+
+	* guile.texi (Top), scheme-modules.texi (Included Guile Modules):
+	Debugger User Interface node renamed Debugging Features.
+
+	* debugging.texi (Stacks and Frames): Node deleted; non-duplicated
+	material moved to scheme-debug.texi.
+	(Debugging Features): Renamed from `Debugger User Interface'.
+
+	* scheme-debug.texi (Debugging): Rename chapter `Debugging
+	Infrastructure' and reorganize its contents.
+	
+	* scheme-debug.texi (Debugging), scheme-control.texi (Handling
+	Errors): Move display-error to error-focussed section.
+
+	* scheme-debug.texi (Debugging), debugging.texi (Backtrace): Move
+	backtrace to user-level debugging chapter.
+	
+	* scheme-debug.texi (Debugging), scheme-procedures.texi (Procedure
+	Properties): Move procedure-name, procedure-source and
+	procedure-environment to procedures chapter.
+
+	* scheme-debug.texi (Debugging), scheme-memory.texi (Garbage
+	Collection): Move malloc-stats to memory management chapter.
+
+	* scheme-procedures.texi (Syntax Rules): Remove mention of
+	use-modules for loading syncase; only use-syntax really works.
+	Thanks to Panagiotis Vossos for spotting this.
+
+	* program.texi (Scheme vs C): New node, with existing material
+	taken from chapter intro.
+	(Programming Overview): New intro para to introduce example of
+	Guile integration:
+	(Extending Dia): New node.
+
+2002-04-08  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* tools.texi (guile-snarf): Updated.
+
+	* Makefile.am (guile_TEXINFOS): Add scheme-compound.texi.
+	(CLEANFILES): Added guile.cps, guile.fns, guile.rns, guile.tps,
+	guile.vrs.
+
+2002-04-03  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* Makefile.am (guile_TEXINFOS): Add program.texi.
+
+2002-04-01  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-intro.texi (Scheme Layout): Remove reference to defunct
+	Guile Extensions index.
+
+	* guile.texi: Removed Guile Extensions index.
+
+	* scheme-indices.texi (Guile Extensions Index): Removed.
+
+	* guile.texi: Update copyright years.
+
+	* preface.texi (Manual Layout): Update according to following
+	organizational changes.
+
+	* guile.texi (Reference Intro): New, introductory para for
+	reference part of manual (copied from unstable).
+	(Debugger User Interface, Autoconf Support, Miscellaneous Tools,
+	Further Reading): Moved to Part II.
+	(Guile Scripting, Command Line Handling): Moved to Part II.
+	(Libguile Intro, Data Representation, Guile API, GH): Moved to
+	Part II.
+	(Top): Remove Parts V and VI, which are now empty.
+	(Scheme Intro, Basic Ideas): Moved to Part II.
+
+	* program.texi: New file (copied from unstable).
+
+	* guile.texi (Top): Create new Part II, Programming with Guile,
+	shuffle up other part numbers, and rename Part III to Guile API
+	Reference.
+
+	* deprecated.texi (Obarray Symbols): Add builtin-bindings
+
+	* scheme-compound.texi (Vectors): Make subsections into nodes.
+	(Vectors): Review, slightly reorg and clarify docs in this
+	section.
+
+	* scheme-data.texi (Symbols): Reorganized node substructure and
+	added lots of explanatory text around the @deffn's.
+
+2002-03-29  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* deprecated.texi (Deprecated): Ensure all @def categories for
+	items in this chapter begin with `Deprecated '.
+
+	* scheme-modules.texi (Variables): Mention obarrays.
+
+	* scheme-data.texi (String Miscellanea): Removed, since it only
+	contained duplicate doc for string-ci->symbol.
+	(Symbol Tables): Move doc for gensym to Symbol Primitives; rest of
+	section removed.
+
+	* scheme-data.texi (Symbol Tables, Symbol Props): Deprecated
+	operations moved to ...
+
+	* deprecated.texi (Obarray Symbols): New section for deprecated
+	symbol operations moved here from `Symbol Tables' and `Symbol
+	Props'.
+
+2002-03-28  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scm.texi (Scheme Primitives): Renamed `Guile API', updates
+	merged from unstable branch.
+
+	* guile.texi (Top): Change `Scheme Primitives' menu entry to
+	`Guile API'.
+
+	* intro.texi (Linking Programs With Guile): Change `Scheme
+	Primitives' reference to `Primitives'.
+
+2002-03-27  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-evaluation.texi (Fly Evaluation): Move docs for eval2 and
+	read-and-eval! to deprecated.texi.
+
+	* posix.texi (Ports and File Descriptors): Move doc for
+	close-all-ports-except to deprecated.texi
+
+	* scheme-compound.texi (List Searching): Move docs for sloppy-memq
+	etc. to deprecated.texi.
+
+	* Makefile.am (guile_TEXINFOS): Remove appendices.texi, add
+	debugging.texi.
+
+2002-03-24  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-data.texi (Pairs, Lists, Vectors, Records, Structures,
+	Arrays, Association Lists and Hash Tables): Move into a new
+	chapter ...
+	(Data Types): Renamed `Simple Data Types'; improvements ported
+	from unstable branch.
+	(Symbols and Variables): Renamed `Symbols'; improvements ported
+	from unstable branch.  `Variables' subsection moved to
+	scheme-modules.texi.
+	
+	* scheme-compound.texi: New file.
+	
+	* scheme-data.texi (Rx Regexps): Move section so that it becomes a
+	chapter in misc-modules.texi, in the Modules section of the manual.
+
+	* guile.texi (Top): Remove anything to do with appendices, as
+	there's no appendix material anymore.
+
+	* appendices.texi (Debugger User Interface): Moved to non-appendix
+	chapter in Part II; file renamed `debugging.texi'.
+
+	* guile.texi (Top), intro.texi (What is Guile?, The Basic Guile
+	Package): Use @ifnottex instead of @ifinfo, so that HTML
+	generation works correctly.
+	(Top): Move scheme-indices.texi after other indices at end.
+
+2002-03-20  Marius Vollmer  <mvo@zagadka.ping.de>
+
+	* tools.texi: Updated to reflect changes to the guile-snarf tool.
+
+2002-03-16  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-utility.texi (Hooks): Further updates merged from
+	unstable branch.
+
+	* guile.texi (Top): Remove menu items for Handling Errors and I/O
+	Extensions chapters.  Move item for Obtaining and Installing
+	Guile.
+
+	* appendices.texi (Obtaining and Installing Guile): Moved to
+	intro.texi.
+
+	* scheme-indices.texi (R5RS Index): Make index chapters
+	unnumbered.
+
+	* scm.texi (Handling Errors): Chapter moved to section in
+	scheme-control.texi.
+	(I/O Extensions): Chapter moved to section in scheme-io.texi.
+	
+	* scheme-options.texi (Install Config): Copy doc for
+	%guile-build-info from unstable branch.
+	(Feature Tracking): New, copied from unstable branch.
+
+	* scheme-utility.texi (Hooks): Merge updates from unstable branch.
+
+2002-03-15  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* tools.texi (guile-1.4 guile-snarf): Remove this node.
+	(How guile-snarf works): Update usage and description to
+	no longer mention "--compat=1.4" and instead "-d" and "-D".
+	(Macros guile-snarf recognizes): Add list of deprecated macros
+	and blurb.  Add cindex for deprecated macros.
+
+2002-03-15  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-utility.texi (Object Properties): Revamp documentation on
+	object properties.
+
+	* scheme-memory.texi (Weak References): Update reference to Object
+	Properties node.
+
+	* scheme-data.texi: Move `Hooks' section to scheme-utility.texi.
+
+	* guile.texi: Update notes about @deffn categories.
+
+	* scripts.texi (Invoking Guile): Document `--debug' switch.
+
+	* scheme-data.texi, scheme-debug.texi, scheme-procedures.texi,
+	scheme-utility.texi, scheme-io.texi: Automatic updates from
+	snarfed libguile docstrings.
+
+2002-03-14  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* appendices.texi, deprecated.texi, intro.texi, misc-modules.texi,
+	new-docstrings.texi, posix.texi, scheme-binding.texi,
+	scheme-control.texi, scheme-data.texi, scheme-debug.texi,
+	scheme-evaluation.texi, scheme-io.texi, scheme-memory.texi,
+	scheme-modules.texi, scheme-options.texi, scheme-procedures.texi,
+	scheme-scheduling.texi, scheme-translation.texi,
+	scheme-utility.texi, scm.texi, script-getopt.texi,
+	srfi-modules.texi: Change all occurrences of @deffn categories
+	`primitive' and `procedure' to `{Scheme Procedure}'.
+
+2002-03-13  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* Makefile.am (guile_toc.html): Look for guile.texi in $(srcdir).
+
+	* tools.texi (How guile-snarf works): Mention "--compat=1.4", and
+	new processing steps.  Update usage example, makefile frag.
+
+	(guile-1.4 guile-snarf): New subsubsection under
+	"Init Snarfing with guile-snarf".
+
+2002-03-12  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* autoconf.texi, data-rep.texi, guile.texi, indices.texi,
+	scheme-binding.texi, scheme-debug.texi, scheme-evaluation.texi,
+	scheme-ideas.texi, scheme-io.texi, scheme-options.texi,
+	scheme-procedures.texi, scheme-utility.texi, scm.texi,
+	misc-modules.texi, intro.texi: Various minor/trivial enhancements
+	backported from the unstable CVS branch.
+
+2002-03-08  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* tools.texi (Miscellaneous Tools): New node/chapter.
+	(Snarfing, Init Snarfing with guile-snarf, How guile-snarf works,
+	Macros guile-snarf recognizes, Doc Snarfing): New nodes/(sub)sections.
+	(Executable Modules): Now a section under "Miscellaneous Tools".
+
+	* guile.texi (Miscellaneous Tools): Add under "Part II".
+	Implement by including tools.texi.
+
+	* Makefile.am (guile_TEXINFOS): Add tools.texi.
+
+2002-03-07  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* tools.texi: New file.
+
+2002-03-01  Dirk Herrmann  <D.Herrmann@tu-bs.de>
+
+        * api.txt, data-rep.texi: Renamed the struct scm_cell to
+        scm_t_cell.
+
+2002-02-26  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* Makefile.am: Update path to pre-inst-guile automake frag.
+
+2002-02-24  Rob Browning  <rlb@defaultvalue.org>
+
+	* .cvsignore: add autoconf-macros.texi.
+
+	* Makefile.am (CLEANFILES): add autoconf-macros.texi.
+
+2002-02-05  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* Makefile.am: Include $(top_srcdir)/pre-inst-guile.am.
+
+	(GUILE): Delete var.
+	(autoconf-macros.texi): Use $(preinstguiletool).
+
+2002-02-04  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* autoconf.texi (Autofrisk, Using Autofrisk): New sections.
+	(Autoconf Support): Add new sections to menu.
+
+2002-01-14  Marius Vollmer  <marius.vollmer@uni-dortmund.de>
+
+	* Makefile.am (autoconf-macros.texi): Also set GUILE_LOAD_PATH
+	when invoking the uninstalled guile executable.
+
+2002-01-09  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* Makefile.am (autoconf-macros.texi): Fix build bug: Write this
+	file to srcdir.  Also, attempt to use guile from
+	$(top_builddir)/libguile.  There are still problems with modules
+	and running makeinfo when builddir != srcdir.
+
+2002-01-08  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* data-rep.texi, gh.texi, guile.texi, intro.texi,
+	misc-modules.texi, new-docstrings.texi, posix.texi,
+	repl-modules.texi, scheme-binding.texi,
+	scheme-control.texi, scheme-data.texi, scheme-debug.texi,
+	scheme-ideas.texi, scheme-memory.texi,
+	scheme-modules.texi, scheme-procedures.texi,
+	scheme-translation.texi, scheme-utility.texi, scm.texi, slib.texi,
+	srfi-modules.texi: Spell check.  Thanks to Fabrice Bauzac.
+
+2002-01-07  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* intro.texi (Linking Programs With Guile): Fix typo (superfluous
+	`do').  Thanks to Fabrice Bauzac.
+
+2002-01-05  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* intro.texi: Spell check.  Thanks to Fabrice Bauzac.
+
+2002-01-02  Thien-Thi Nguyen  <ttn@giblet.glug.org>
+
+	* guile.texi (Part II): Add "Autoconf Support"; include
+	autoconf.texi.
+
+	* Makefile.am (guile_TEXINFOS): Add autoconf.texi and
+	autoconf-macros.texi.
+	(autoconf.texi, autoconf-macros.texi): New rules.
+
+	* autoconf.texi: New file.
+
+2001-11-25  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* posix.texi: Fix spelling.  Thanks to Chris Cramer.
+	Reword `getpass' intro blurb.
+
+2001-11-18  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-data.texi (String Modification, Vectors): Autoupdate docs
+	for substring-move!, vector-move-left! and vector-move-right!.
+
+2001-11-14  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* scheme-procedures.texi: Spell "library" correctly.
+
+2001-11-13  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-data.texi, scheme-evaluation.texi, scheme-io.texi: Merge
+	appropriate recent doc enhancements from unstable branch.
+
+	* new-docstrings.texi, posix.texi, scheme-binding.texi,
+	scheme-control.texi, scheme-data.texi, scheme-debug.texi,
+	scheme-evaluation.texi, scheme-io.texi, scheme-memory.texi,
+	scheme-options.texi: Automatic updates corresponding to changed
+	docstrings in libguile's C source code.
+
+	* scheme-data.texi (String Predicates): Correct doc for
+	string-null?.  Thanks to Scott Lenser!
+
+2001-11-12  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* scheme-data.texi (String Searching): Add missing "for".  Thanks
+	to Scott Lenser.
+
+2001-11-06  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* srfi-modules.texi (SRFI-19, SRFI-19 Constants, SRFI-19 Current
+	time and clock resolution, SRFI-19 Time object and accessors,
+	SRFI-19 Time comparison procedures, SRFI-19 Time arithmetic
+	procedures, SRFI-19 Date object and accessors, SRFI-19
+	Time/Date/Julian Day/Modified Julian Day converters, SRFI-19 Date
+	to string/string to date converters): New nodes.
+	(SRFI Support): Add "SRFI-19" to menu.
+
+2001-10-27  Gary Houston  <ghouston@arglist.com>
+
+	* guile.texi, scsh.texi: removed obsolete guile-scsh material
+	and updated links (I don't know if it should remain in the
+	main menu.  It's like slib I think.)
+
+	* minor updates to the slib installation notes.
+
+2001-10-05  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* scheme-io.texi (Writing): Add entry for `display'.
+	Include in R5RS Index.  Thanks to Alex Schroeder for suggestion.
+
+2001-09-26  Martin Grabmueller  <mgrabmue@cs.tu-berlin.de>
+
+	* srfi-modules.texi (SRFI-13): Tyop fix.
+	(SRFI-13): Changed paragraph about bindings both in the code and
+	in SRFI-13.
+
+	* misc-modules.texi (Formatted Output): Tyop fix.
+	(Formatted Output): Document ~g properly.
+
+	Thanks to Alex Schroeder for pointing out the typos and sending
+	suggestions.
+
+2001-09-25  Thien-Thi Nguyen  <ttn@glug.org>
+
+	* scheme-procedures.texi (Syntax Rules): Add `cindex' directive.
+	Thanks to suggestion by Alex Schroeder.
+
+2001-08-30  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* guile.texi (Top): Group all index nodes together so that
+	`Info-index' works more effectively in Info.  Thanks to Eric
+	Hanchrow for the report and fix.
+
+2001-08-27  Neil Jerram  <neil@ossau.uklinux.net>
+
+	* Makefile.am (guile_TEXINFOS): Remove ../AUTHORS.
+
+	* guile.texi: Incorporate text previously in separate AUTHORS
+	file.
+
+2001-08-27  Neil Jerram  <neil@ossau.uklinux.net>
+
+	The change log for files in this directory continues backwards
+	from 2001-08-27 in ../ChangeLog, as all the Guile documentation
+	prior to this date was contained in a single directory.

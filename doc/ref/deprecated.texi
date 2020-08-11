@@ -1,0 +1,362 @@
+@page
+@node Deprecated
+@chapter Deprecated
+
+@menu
+* Shared And Read Only Strings::
+* Sloppy Membership::           `Sloppy' list membership procedures.
+* Strange Eval::                Strange variations on @code{eval}.
+* Close All Ports::             Closing all ports except some ...
+* C Module Reg::                Old method for registering C modules.
+* Obarray Symbols::             Obarray symbol manipulation.
+* Removed Items::               Previously deprecated, now removed.
+@end menu
+
+
+@node Shared And Read Only Strings
+@section Shared And Read Only Strings
+
+The procedures described in this section are deprecated because explicit
+shared substrings are planned to disappear from Guile.
+
+Instead, all strings will be implemented using sharing internally,
+combined with a copy-on-write strategy.  Once internal string sharing
+and copy-on-write have been implemented, it will be unnecessary to
+preserve the concept of read only strings.
+
+@menu
+* Shared Substrings::           Strings which share memory with each other.
+* Read Only Strings::           Treating certain non-strings as strings.
+@end menu
+
+
+@node Shared Substrings
+@subsection Shared Substrings
+
+Whenever you extract a substring using @code{substring}, the Scheme
+interpreter allocates a new string and copies data from the old string.
+This is expensive, but @code{substring} is so convenient for
+manipulating text that programmers use it often.
+
+Guile Scheme provides the concept of the @dfn{shared substring} to
+improve performance of many substring-related operations.  A shared
+substring is an object that mostly behaves just like an ordinary
+substring, except that it actually shares storage space with its parent
+string.
+
+@deffn {Deprecated Scheme Procedure} make-shared-substring str [start [end]]
+@deffnx {Deprecated C Function} scm_make_shared_substring (str, start, end)
+Return a shared substring of @var{str}.  The arguments are the
+same as for the @code{substring} function: the shared substring
+returned includes all of the text from @var{str} between
+indexes @var{start} (inclusive) and @var{end} (exclusive).  If
+@var{end} is omitted, it defaults to the end of @var{str}.  The
+shared substring returned by @code{make-shared-substring}
+occupies the same storage space as @var{str}.
+@end deffn
+
+Example:
+
+@example
+(define foo "the quick brown fox")
+(define bar (make-shared-substring some-string 4 9))
+
+foo => "t h e   q u i c k   b r o w n   f o x"
+bar =========> |---------|
+@end example
+
+The shared substring @var{bar} is not given its own storage space.
+Instead, the Guile interpreter notes internally that @var{bar} points to
+a portion of the memory allocated to @var{foo}.  However, @var{bar}
+behaves like an ordinary string in most respects: it may be used with
+string primitives like @code{string-length}, @code{string-ref},
+@code{string=?}.  Guile makes the necessary translation between indices
+of @var{bar} and indices of @var{foo} automatically.
+
+@example
+(string-length? bar) @result{} 5	; bar only extends from indices 4 to 9
+(string-ref bar 3)  @result{} #\c	; same as (string-ref foo 7)
+(make-shared-substring bar 2)
+  @result{} "ick"			; can even make a shared substring!
+@end example
+
+Because creating a shared substring does not require allocating new
+storage from the heap, it is a very fast operation.  However, because it
+shares memory with its parent string, a change to the contents of the
+parent string will implicitly change the contents of its shared
+substrings.
+
+@example
+(string-set! foo 7 #\r)
+bar @result{} "quirk"
+@end example
+
+Guile considers shared substrings to be immutable.  This is because
+programmers might not always be aware that a given string is really a
+shared substring, and might innocently try to mutate it without
+realizing that the change would affect its parent string.  (We are
+currently considering a "copy-on-write" strategy that would permit
+modifying shared substrings without affecting the parent string.)
+
+In general, shared substrings are useful in circumstances where it is
+important to divide a string into smaller portions, but you do not
+expect to change the contents of any of the strings involved.
+
+
+@node Read Only Strings
+@subsection Read Only Strings
+
+In previous versions of Guile, there was the idea that some string-based
+primitives such as @code{string-append} could equally accept symbols as
+arguments.  For example, one could write
+
+@lisp
+(string-append '/home/ 'vigilia)
+@end lisp
+
+@noindent
+and get @code{"/home/vigilia"} as the result.  The term @dfn{read only
+string} was adopted to describe the argument type expected by such
+primitives.
+
+This idea has now been removed.  The predicate @code{read-only-string?}
+still exists, but deprecated, and is equivalent to
+
+@lisp
+(lambda (x) (or (string? x) (symbol? x)))
+@end lisp
+
+@noindent
+But no Guile primitives now use @code{read-only-string?} to validate
+their arguments.
+
+String-based primitives such as @code{string-append}
+now require strings:
+
+@lisp
+(string-append '/home/ 'vigilia)
+@result{}
+ERROR: Wrong type argument (expecting STRINGP): /home/
+@end lisp
+
+@deffn {Deprecated Scheme Procedure} read-only-string? obj
+@deffnx {Deprecated C Function} scm_read_only_string_p (obj)
+Return @code{#t} if @var{obj} is either a string or a symbol,
+otherwise return @code{#f}.
+@end deffn
+
+
+@node Sloppy Membership
+@section `Sloppy' List Membership Procedures
+
+The following are equivalent to @code{memq}, @code{memv} and
+@code{member} respectively, except that they do not fully type-check the
+arguments that they are given.  They are deprecated because the lack of
+proper type-checking makes them dangerous.
+
+@deffn {Deprecated Scheme Procedure} sloppy-memq x lst
+@deffnx {Deprecated C Function} scm_sloppy_memq (x, lst)
+This procedure behaves like @code{memq}, but does no type or error checking.
+Its use is recommended only in writing Guile internals,
+not for high-level Scheme programs.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} sloppy-memv x lst
+@deffnx {Deprecated C Function} scm_sloppy_memv (x, lst)
+This procedure behaves like @code{memv}, but does no type or error checking.
+Its use is recommended only in writing Guile internals,
+not for high-level Scheme programs.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} sloppy-member x lst
+@deffnx {Deprecated C Function} scm_sloppy_member (x, lst)
+This procedure behaves like @code{member}, but does no type or error checking.
+Its use is recommended only in writing Guile internals,
+not for high-level Scheme programs.
+@end deffn
+
+
+@node Strange Eval
+@section Strange Variations on @code{eval}
+
+@code{eval2} was useful in previous Guile releases because the
+@code{eval} in those releases was a single argument @code{eval} that did
+not conform to R5RS.  Guile's standard @code{eval} now requires a second
+environment-specifier argument (which Guile interprets as the module in
+which to evaluate the specified code expression).  Hence @code{eval} is
+now R5RS-compliant, and @code{eval2} is obsolete and therefore
+deprecated.
+
+@deffn {Deprecated Scheme Procedure} eval2 obj env_thunk
+@deffnx {Deprecated C Function} scm_eval2 (obj, env_thunk)
+Evaluate @var{exp}, a Scheme expression, in the environment
+designated by @var{lookup}, a symbol-lookup function.
+Do not use this version of eval, it does not play well
+with the module system.  Use @code{eval} or
+@code{primitive-eval} instead.
+@end deffn
+
+In previous Guile releases, the implementation of expressions like
+@code{(eval (read port))} was deficient in that source properties
+associated with the expression returned by the @code{read} would be lost
+during the @code{eval}.  To provide a way of performing a read and
+evaluation without losing source properties, @code{read-and-eval!} was
+invented.
+
+In this Guile release, evaluation always preserves source property
+information.  So @code{read-and-eval!} is now unnecessary.
+
+@deffn {Deprecated Scheme Procedure} read-and-eval! [port]
+@deffnx {Deprecated C Function} scm_read_and_eval_x (port)
+Read a form from @var{port} (standard input by default), and evaluate it
+(memoizing it in the process) in the top-level environment.  If no data
+is left to be read from @var{port}, an @code{end-of-file} error is
+signalled.
+@end deffn
+
+
+@node Close All Ports
+@section Closing All Ports Except Some @dots{}
+
+@deffn {Deprecated Scheme Procedure} close-all-ports-except . ports
+@deffnx {Deprecated C Function} scm_close_all_ports_except (ports)
+[DEPRECATED] Close all open file ports used by the interpreter
+except for those supplied as arguments.  This procedure
+was intended to be used before an exec call to close file descriptors
+which are not needed in the new process.  However it has the
+undesirable side effect of flushing buffers, so it's deprecated.
+Use port-for-each instead.
+@end deffn
+
+
+@node C Module Reg
+@section Old Method for Registering C Modules.
+
+** Auto-loading of compiled-code modules is deprecated.
+
+Guile used to be able to automatically find and link a shared
+library to satisfy requests for a module.  For example, the module
+`(foo bar)' could be implemented by placing a shared library named
+"foo/libbar.so" (or with a different extension) in a directory on the
+load path of Guile.
+
+This has been found to be too tricky, and is no longer supported.  The
+shared libraries are now called "extensions".  You should now write a
+small Scheme file that calls `load-extension' to load the shared
+library and initialize it explicitely.
+
+The shared libraries themselves should be installed in the usual
+places for shared libraries, with names like "libguile-foo-bar".
+
+For example, place this into a file "foo/bar.scm"
+
+    (define-module (foo bar))
+
+    (load-extension "libguile-foo-bar" "foobar_init")
+
+
+@node Obarray Symbols
+@section Obarray Symbol Manipulation
+
+Guile's module mechanism uses @dfn{obarrays}, which are hash tables that
+map symbols to variables.  Guile 1.4 included a group of primitives that
+could be used for the manipulation of the symbol-variable mappings in
+such obarrays.
+
+However, considering the availability both of low-level procedures for
+operating on hash tables in general (@pxref{Hash Tables}), and of a
+dedicated API for module-related operations (@pxref{Modules}), the
+intermediate set of obarray primitives is no longer useful, and ---
+which is worse --- makes it more difficult to evolve the implementation
+of Guile's module system.  Hence this set of primitives has now been
+deprecated.
+
+If you have code using these functions, please change it to use either
+hash table or module-related operations.
+
+@deffn {Deprecated Scheme Procedure} gentemp [prefix [obarray]]
+@deffnx {Deprecated C Function} scm_gentemp (prefix, obarray)
+Create a new symbol with a name unique in an obarray.
+The name is constructed from an optional string @var{prefix}
+and a counter value.  The default prefix is @code{t}.  The
+@var{obarray} is specified as a second optional argument.
+Default is the system obarray where all normal symbols are
+interned.  The counter is increased by 1 at each
+call.  There is no provision for resetting the counter.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} intern-symbol obarray string
+@deffnx {Deprecated C Function} scm_intern_symbol (obarray, string)
+Add a new symbol to @var{obarray} with name @var{string}, bound to an
+unspecified initial value.  The symbol table is not modified if a symbol
+with this name is already present.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} symbol-interned? obarray string
+@deffnx {Deprecated C Function} scm_symbol_interned_p (obarray, string)
+Return @code{#t} if @var{obarray} contains a symbol with name
+@var{string}, and @code{#f} otherwise.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} unintern-symbol obarray string
+@deffnx {Deprecated C Function} scm_unintern_symbol (obarray, string)
+Remove the symbol with name @var{string} from @var{obarray}.  This
+function returns @code{#t} if the symbol was present and @code{#f}
+otherwise.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} string->obarray-symbol obarray string [soft?]
+@deffnx {Deprecated C Function} scm_string_to_obarray_symbol (obarray, string, soft_p)
+Intern a new symbol in @var{obarray}, a symbol table, with name
+@var{string}.
+
+If @var{obarray} is @code{#f}, use the default system symbol table.  If
+@var{obarray} is @code{#t}, the symbol should not be interned in any
+symbol table; merely return the pair (@var{symbol}
+. @var{#<undefined>}).
+
+The @var{soft?} argument determines whether new symbol table entries
+should be created when the specified symbol is not already present in
+@var{obarray}.  If @var{soft?} is specified and is a true value, then
+new entries should not be added for symbols not already present in the
+table; instead, simply return @code{#f}.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} symbol-binding obarray string
+@deffnx {Deprecated C Function} scm_symbol_binding (obarray, string)
+Look up in @var{obarray} the symbol whose name is @var{string}, and
+return the value to which it is bound.  If @var{obarray} is @code{#f},
+use the global symbol table.  If @var{string} is not interned in
+@var{obarray}, an error is signalled.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} symbol-bound? obarray string
+@deffnx {Deprecated C Function} scm_symbol_bound_p (obarray, string)
+Return @code{#t} if @var{obarray} contains a symbol with name
+@var{string} bound to a defined value.  This differs from
+@var{symbol-interned?} in that the mere mention of a symbol
+usually causes it to be interned; @code{symbol-bound?}
+determines whether a symbol has been given any meaningful
+value.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} symbol-set! obarray string value
+@deffnx {Deprecated C Function} scm_symbol_set_x (obarray, string, value)
+Find the symbol in @var{obarray} whose name is @var{string}, and rebind
+it to @var{value}.  An error is signalled if @var{string} is not present
+in @var{obarray}.
+@end deffn
+
+@deffn {Deprecated Scheme Procedure} builtin-bindings
+@deffnx {Deprecated C Function} scm_builtin_bindings
+Create and return a copy of the global symbol table, removing all
+unbound symbols.
+@end deffn
+
+
+@node Removed Items
+@section Previously Deprecated Items Now Removed
+
+tag
+fseek
+list*
