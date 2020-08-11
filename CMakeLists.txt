@@ -45,6 +45,14 @@ set(READER_EXTENSIONS 1)
 if (WIN32)
     # fix: no struct sockaddr_in6
     unset(HAVE_IPV6)
+    # fix: error: unknown type name 'error_t'
+    # set(HAVE_ARGZ_APPEND 1)
+    # set(HAVE_ARGZ_CREATE_SEP 1)
+    # set(HAVE_ARGZ_INSERT 1)
+    unset(HAVE_ARGZ_STRINGIFY)
+    # undefined reference to `crypt'
+    unset(HAVE_CRYPT)
+    set(HAVE_SELECT 1)
 endif ()
 configure_file (${guile_SOURCE_DIR}/cmake/config.h.cmake                 ${guile_BINARY_DIR}/config.h)
 configure_file (${guile_SOURCE_DIR}/cmake/version.h.cmake       ${guile_BINARY_DIR}/libguile/version.h)
@@ -58,7 +66,12 @@ execute_process(
         ${common_options}
 )
 add_executable(guile-main libguile/guile.c)
-target_link_libraries(guile-main guile Math::Math dl crypt)
+target_link_libraries(guile-main guile Math::Math dl)
+if (WIN32)
+    # undefined reference to `crypt'
+    # undefined reference to `regfree'
+    target_link_libraries(guile-main ws2_32 regex)
+endif ()
 target_sources(
         guile PRIVATE
         libguile/gh_io.c

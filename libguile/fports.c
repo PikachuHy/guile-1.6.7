@@ -478,6 +478,7 @@ fport_input_waiting (SCM port)
   return FD_ISSET (fdes, &read_set) ? 1 : 0;
 #elif defined (FIONREAD)
   int remir;
+  // undefined reference to `ioctl'
   ioctl(fdes, FIONREAD, &remir);
   return remir;
 #else    
