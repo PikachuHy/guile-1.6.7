@@ -88,8 +88,9 @@ main (int argc, char **argv)
 {
 #ifdef DYNAMIC_LINKING
   /* libtool automagically inserts this variable into your executable... */
-  extern const scm_lt_dlsymlist lt_preloaded_symbols[];
-  scm_lt_dlpreload_default (lt_preloaded_symbols);
+// fix: error: array type has incomplete element type ‘scm_lt_dlsymlist’ {aka ‘struct scm_i_lt_dlsymlist_struct’}
+//  extern const scm_lt_dlsymlist lt_preloaded_symbols[];
+//  scm_lt_dlpreload_default (lt_preloaded_symbols);
 #endif
   scm_boot_guile (argc, argv, inner_main, 0);
   return 0; /* never reached */
