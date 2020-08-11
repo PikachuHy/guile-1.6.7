@@ -1357,17 +1357,18 @@ SCM_DEFINE (scm_seek, "seek", 3, 0, 0,
 #undef FUNC_NAME
 
 #ifdef __MINGW32__
+// fix: error: conflicting types for 'truncate'
 /* Define this function since it is not supported under Windows. */
-static int truncate (char *file, int length)
-{
-  int ret = -1, fdes;
-  if ((fdes = open (file, O_BINARY | O_WRONLY)) != -1)
-    {
-      ret = chsize (fdes, length);
-      close (fdes);
-    }
-  return ret;
-}
+//static int truncate (char *file, int length)
+//{
+//  int ret = -1, fdes;
+//  if ((fdes = open (file, O_BINARY | O_WRONLY)) != -1)
+//    {
+//      ret = chsize (fdes, length);
+//      close (fdes);
+//    }
+//  return ret;
+//}
 #endif /* __MINGW32__ */
 
 SCM_DEFINE (scm_truncate_file, "truncate-file", 1, 1, 0,
