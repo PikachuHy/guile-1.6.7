@@ -64,12 +64,12 @@ set(common_options "-DHAVE_CONFIG_H -I${guile_SOURCE_DIR} -I${guile_BINARY_DIR} 
 if (MSVC)
     set(common_options "${common_options} -D__MSVC__")
 endif ()
-execute_process(
-        COMMAND ${PYTHON_PATH}  ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py
-        ${guile_SOURCE_DIR}
-        ${guile_BINARY_DIR}
-        ${common_options}
-)
+#execute_process(
+#        COMMAND ${PYTHON_PATH}  ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py
+#        ${guile_SOURCE_DIR}
+#        ${guile_BINARY_DIR}
+#        ${common_options}
+#)
 add_executable(guile-main libguile/guile.c)
 target_link_libraries(guile-main guile)
 if (NOT MSVC)
@@ -205,7 +205,11 @@ target_sources(
         #libguile-ltdl/guile-ltdl.c
 )
 if(MSVC)
-    target_sources(guile PRIVATE msvc/dynl.c)
+    target_sources(guile PRIVATE
+            msvc/dynl.c
+#            msvc/regex-msvc.c
+#            msvc/regex.c
+            )
 else (NOT MSVC)
     target_sources(
             guile PRIVATE
