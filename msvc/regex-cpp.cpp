@@ -25,6 +25,8 @@
 /* Extra tre_regexec() flags. */
 #define REG_APPROX_MATCHER     (REG_NOTEOL << 1)
 #define REG_BACKTRACKING_MATCHER (REG_APPROX_MATCHER << 1)
+
+#define REG_NOMATCH 1
 typedef int regoff_t;
 typedef struct {
     size_t re_nsub;  /* Number of parenthesized subexpressions. */
@@ -47,6 +49,7 @@ int regerror(int errcode, const regex_t *preg,
              char *errbuf, size_t errbuf_size) {
     printf("%s \n", __FUNCTION__);
     errbuf[0] = 'E';
+    errbuf[1] = '\0';
     errbuf_size = 1;
     return 1;
 }
@@ -68,15 +71,19 @@ int regcomp(regex_t *preg, const char *pattern, int cflags) {
             }
         }
     }
+    if (cflags & REG_ICASE) {
+        preg->value = new std::regex(pattern, std::regex::icase);
+        return 0;
+    }
+    if (cflags & REG_NEWLINE) {
+        preg->value = new std::regex(pattern, std::regex::nosubs);
+        return 0;
+    }
     if (cflags & REG_EXTENDED) {
         preg->value = new std::regex(pattern, std::regex::extended);
-    } else if (cflags & REG_ICASE) {
-        preg->value = new std::regex(pattern, std::regex::icase);
-    } else if (cflags & REG_NEWLINE) {
-        preg->value = new std::regex(pattern, std::regex::nosubs);
-    } else {
-        preg->value = new std::regex(pattern, std::regex::basic);
+        return 0;
     }
+    preg->value = new std::regex(pattern, std::regex::basic);
     return 0;
 }
 
@@ -255,27 +262,35 @@ SCM_DEFINE (scm_regexp_exec, "regexp-exec", 2, 2, 0,
     std::smatch sm;
     auto target = std::string(SCM_STRING_CHARS (str) + offset);
     std::regex_search(target, sm , *e);
+
     if (sm.empty()) {
+        // TODO: ERROR handle
+        /*
         scm_error(scm_regexp_error_key,
                   FUNC_NAME,
-                  scm_regexp_error_msg(status, SCM_RGX (rx)),
+                  scm_regexp_error_msg(REG_NOMATCH, SCM_RGX (rx)),
                   SCM_BOOL_F,
                   SCM_BOOL_F);
-    }
-    mvec = scm_c_make_vector(nmatches + 1, SCM_UNSPECIFIED);
-    SCM_VELTS(mvec)[0] = str;
-    int i = 0;
-    for(auto it: sm) {
-        if (!it.matched) {
-            SCM_VELTS(mvec)[i + 1] = scm_cons(SCM_MAKINUM (-1), SCM_MAKINUM (-1));
-        } else {
-            int rm_so = it.first - target.begin();
-            int rm_eo = it.second - target.begin();
-            SCM_VELTS(mvec)[i + 1]
-                    = scm_cons(scm_long2num(rm_so + offset),
-                               scm_long2num(rm_eo + offset));
+        */
+//        for (i = 0; i < nmatches; ++i) {
+//            SCM_VELTS(mvec)[i + 1] = scm_cons(SCM_MAKINUM (-1), SCM_MAKINUM (-1));
+//        }
+    } else {
+        mvec = scm_c_make_vector(nmatches + 1, SCM_UNSPECIFIED);
+        SCM_VELTS(mvec)[0] = str;
+        int i = 0;
+        for(auto it: sm) {
+            if (!it.matched) {
+                SCM_VELTS(mvec)[i + 1] = scm_cons(SCM_MAKINUM (-1), SCM_MAKINUM (-1));
+            } else {
+                int rm_so = it.first - target.begin();
+                int rm_eo = it.second - target.begin();
+                SCM_VELTS(mvec)[i + 1]
+                        = scm_cons(scm_long2num(rm_so + offset),
+                                   scm_long2num(rm_eo + offset));
+            }
+            i++;
         }
-        i++;
     }
     SCM_ALLOW_INTS;
 /* re_nsub doesn't account for the `subexpression' representing the
@@ -303,7 +318,7 @@ SCM_DEFINE (scm_regexp_exec, "regexp-exec", 2, 2, 0,
 //                                   scm_long2num(matches[i].rm_eo + offset));
 //    }
 //    scm_must_free((char *) matches);
-    SCM_ALLOW_INTS;
+//    SCM_ALLOW_INTS;
 
 //    if (status != 0 && status != REG_NOMATCH)
 //        scm_error(scm_regexp_error_key,
