@@ -528,10 +528,8 @@ scm_init_guile_1 (SCM_STACKITEM *base)
   scm_init_posix ();
 #endif
 #endif
-#ifndef __MSVC__
 #ifdef HAVE_REGCOMP
   scm_init_regex_posix ();
-#endif
 #endif
   scm_init_procs ();
 #ifndef __MSVC__

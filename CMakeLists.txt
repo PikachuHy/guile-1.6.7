@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(guile VERSION 1.6.7 LANGUAGES C)
+project(guile VERSION 1.6.7 LANGUAGES C CXX)
 set(GUILE_MAJOR_VERSION ${guile_VERSION_MAJOR})
 set(GUILE_MINOR_VERSION ${guile_VERSION_MINOR})
 set(GUILE_MICRO_VERSION ${guile_VERSION_PATCH})
@@ -207,8 +207,7 @@ target_sources(
 if(MSVC)
     target_sources(guile PRIVATE
             msvc/dynl.c
-#            msvc/regex-msvc.c
-#            msvc/regex.c
+            msvc/regex-cpp.cpp
             )
 else (NOT MSVC)
     target_sources(
