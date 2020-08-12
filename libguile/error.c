@@ -347,6 +347,7 @@ scm_wta (SCM arg, const char *pos, const char *s_subr)
 void
 scm_init_error ()
 {
+#define scm_from_int scm_int2num
 #include "libguile/cpp_err_symbols.c"
 #include "libguile/error.x"
 }
