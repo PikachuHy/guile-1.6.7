@@ -62,7 +62,7 @@ configure_file (${guile_SOURCE_DIR}/cmake/libpath.h.cmake       ${guile_BINARY_D
 configure_file (${guile_SOURCE_DIR}/cmake/config.h.cmake                 ${guile_BINARY_DIR}/libguile/scmconfig.h)
 set(common_options "-DHAVE_CONFIG_H -I${guile_SOURCE_DIR} -I${guile_BINARY_DIR} -I${guile_SOURCE_DIR}/libguile-ltdl")
 if (MSVC)
-    set(common_options "${common_options} -D__MSVC__")
+    set(common_options "${common_options} -D__MSVC__ -D__USE_W32_SOCKETS=1")
 endif ()
 #execute_process(
 #        COMMAND ${PYTHON_PATH}  ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py
