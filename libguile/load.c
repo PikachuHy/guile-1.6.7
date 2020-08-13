@@ -207,7 +207,11 @@ scm_internal_parse_path (char *path, SCM tail)
       do {
 	/* Scan back to the beginning of the current element.  */
 	do scan--;
+#ifdef __MSVC__
+	while (scan >= path && *scan != ';');
+#else
 	while (scan >= path && *scan != ':');
+#endif
 	tail = scm_cons (scm_mem2string (scan + 1, elt_end - (scan + 1)),
 			 tail);
 	elt_end = scan;
