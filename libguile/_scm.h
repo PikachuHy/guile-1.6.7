@@ -115,7 +115,9 @@
 # ifdef ARM_ULIB
     extern volatile int errno;
 # else
+#ifndef __MSVC__ // warning C4273: '_errno': inconsistent dll linkage
     extern int errno;
+#endif
 # endif /* def ARM_ULIB */
 #endif /* ndef MSDOS && ndef __MINGW32__*/
 
