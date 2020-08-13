@@ -662,19 +662,19 @@
 #cmakedefine NEED_USCORE 1
 
 /* Define to the address where bug reports for this package should be sent. */
-#cmakedefine PACKAGE_BUGREPORT 1
+// #cmakedefine PACKAGE_BUGREPORT 1
 
 /* Define to the full name of this package. */
-#cmakedefine PACKAGE_NAME 1
+// #cmakedefine PACKAGE_NAME 1
 
 /* Define to the full name and version of this package. */
-#cmakedefine PACKAGE_STRING 1
+// #cmakedefine PACKAGE_STRING 1
 
 /* Define to the one symbol short name of this package. */
-#cmakedefine PACKAGE_TARNAME 1
+// #cmakedefine PACKAGE_TARNAME 1
 
 /* Define to the version of this package. */
-#cmakedefine PACKAGE_VERSION 1
+// #cmakedefine PACKAGE_VERSION 1
 
 /* Define if you want support for debugging Scheme programs. */
 #cmakedefine READER_EXTENSIONS 1
