@@ -60,16 +60,27 @@ endif ()
 configure_file (${guile_SOURCE_DIR}/cmake/version.h.cmake       ${guile_BINARY_DIR}/libguile/version.h)
 configure_file (${guile_SOURCE_DIR}/cmake/libpath.h.cmake       ${guile_BINARY_DIR}/libguile/libpath.h)
 configure_file (${guile_SOURCE_DIR}/cmake/config.h.cmake                 ${guile_BINARY_DIR}/libguile/scmconfig.h)
-set(common_options "-DHAVE_CONFIG_H -I${guile_SOURCE_DIR} -I${guile_BINARY_DIR} -I${guile_SOURCE_DIR}/libguile-ltdl")
+set(gen_cmd "${PYTHON_PATH}  ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py --srcdir ${guile_SOURCE_DIR} --dstdir ${guile_BINARY_DIR}")
 if (MSVC)
-    set(common_options "${common_options} -D__MSVC__ -D__USE_W32_SOCKETS=1")
+    set(common_options "/DHAVE_CONFIG_H /D__MSVC__ /D__USE_W32_SOCKETS#1")
+    message(INFO $ENV{INCLUDE})
+    set(MSVC_INCLUDE_PATH $ENV{INCLUDE})
+    list(JOIN MSVC_INCLUDE_PATH "\\;" MSVC_INCLUDE_PATH_)
+    set(MSVC_INCLUDE_PATH "${MSVC_INCLUDE_PATH_}\\;${guile_SOURCE_DIR}\\;${guile_BINARY_DIR}\\;${guile_SOURCE_DIR}/libguile-ltdl")
+    set(gen_cmd "${gen_cmd} --msvc --include \"${MSVC_INCLUDE_PATH_}\" --other ${common_options}")
+
+    execute_process(
+            COMMAND ${PYTHON_PATH} ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py
+            --cc ${CMAKE_C_COMPILER}
+            --srcdir ${guile_SOURCE_DIR}
+            --dstdir ${guile_BINARY_DIR}
+            --msvc --include \"${MSVC_INCLUDE_PATH}\"
+            --other ${common_options}
+    )
+else()
+    set(common_options "-DHAVE_CONFIG_H -I${guile_SOURCE_DIR} -I${guile_BINARY_DIR} -I${guile_SOURCE_DIR}/libguile-ltdl")
+    set(gen_cmd "")
 endif ()
-#execute_process(
-#        COMMAND ${PYTHON_PATH}  ${guile_SOURCE_DIR}/cmake/gen_dot_x_for_libguile.py
-#        ${guile_SOURCE_DIR}
-#        ${guile_BINARY_DIR}
-#        ${common_options}
-#)
 add_executable(guile-main libguile/guile.c)
 target_link_libraries(guile-main guile)
 if (NOT MSVC)
@@ -155,7 +166,7 @@ target_sources(
         libguile/guardians.c
         libguile/stackchk.c
         libguile/gh_list.c
-        #libguile/posix.c
+        libguile/posix.c
         #libguile/dynl.c
         libguile/throw.c
         libguile/strorder.c
@@ -208,7 +219,6 @@ if(MSVC)
     target_sources(guile PRIVATE
             msvc/dynl.c
             msvc/regex-cpp.cpp
-            msvc/posix-cpp.cpp
             )
 else (NOT MSVC)
     target_sources(
