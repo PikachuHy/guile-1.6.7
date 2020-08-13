@@ -18,7 +18,7 @@ def gen_dox_x(input_c_source_file, output_x_file):
         cmd = f'/E {input_c_source_file} /DSCM_MAGIC_SNARF_INITS /DSCM_MAGIC_SNARFER {args.other} /I{args.srcdir}/libguile-ltdl'
         os.environ['INCLUDE'] = args.include
     else:
-        cmd = f'-DSCM_MAGIC_SNARF_INITS -DSCM_MAGIC_SNARFER {input_c_source_file} {args.other}'
+        cmd = f'-E -DSCM_MAGIC_SNARF_INITS -DSCM_MAGIC_SNARFER {input_c_source_file} {args.other}'
     # remove redundant space
     cmd = [osp.basename(args.cc)] + [_cmd for _cmd in cmd.split(' ') if len(_cmd) > 0]
     # print(' '.join(cmd))
