@@ -208,6 +208,7 @@ if(MSVC)
     target_sources(guile PRIVATE
             msvc/dynl.c
             msvc/regex-cpp.cpp
+            msvc/posix-cpp.cpp
             )
 else (NOT MSVC)
     target_sources(

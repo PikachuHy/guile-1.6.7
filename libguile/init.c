@@ -524,9 +524,7 @@ scm_init_guile_1 (SCM_STACKITEM *base)
   scm_init_ports ();
 #ifdef HAVE_POSIX
   scm_init_filesys ();
-#ifndef __MSVC__
   scm_init_posix ();
-#endif
 #endif
 #ifdef HAVE_REGCOMP
   scm_init_regex_posix ();
