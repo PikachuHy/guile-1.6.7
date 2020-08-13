@@ -14,6 +14,7 @@
 
 /* Some defines for Windows here. */
 # include <process.h>
+#include <io.h>
 # define pipe(fd) _pipe (fd, 256, O_BINARY)
 
 #ifndef WEXITSTATUS
@@ -1089,15 +1090,13 @@ SCM_DEFINE (scm_access, "access?", 2, 0, 0,
             "@end defvar")
 #define FUNC_NAME s_scm_access
 {
-    pf;
-//    int rv;
-//
-//    SCM_VALIDATE_STRING (1, path);
-//    SCM_STRING_COERCE_0TERMINATION_X (path);
-//    SCM_VALIDATE_INUM (2, how);
-//    rv = access (SCM_STRING_CHARS (path), SCM_INUM (how));
-//    return SCM_NEGATE_BOOL(rv);
-    return SCM_BOOL_F;
+    int rv;
+
+    SCM_VALIDATE_STRING (1, path);
+    SCM_STRING_COERCE_0TERMINATION_X (path);
+    SCM_VALIDATE_INUM (2, how);
+    rv = access (SCM_STRING_CHARS (path), SCM_INUM (how));
+    return SCM_NEGATE_BOOL(rv);
 }
 #undef FUNC_NAME
 
