@@ -1667,7 +1667,9 @@ SCM_DEFINE (scm_gethostname, "gethostname", 0, 0, 0,
 void 
 scm_init_posix ()
 {
+#ifndef __MSVC__
   scm_add_feature ("posix");
+#endif
 #ifdef HAVE_GETEUID
   scm_add_feature ("EIDs");
 #endif
