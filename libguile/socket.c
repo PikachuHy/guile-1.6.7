@@ -783,6 +783,7 @@ scm_fill_sockaddr (int fam, SCM address, SCM *args, int which_arg,
     default:
       scm_out_of_range (proc, SCM_MAKINUM (fam));
     }
+    return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
   

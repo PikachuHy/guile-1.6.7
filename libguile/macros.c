@@ -182,6 +182,7 @@ SCM_DEFINE (scm_macro_type, "macro-type", 1, 0, 0,
     case 2: return scm_sym_mmacro;
     default: scm_wrong_type_arg (FUNC_NAME, 1, m);
     }
+    return SCM_BOOL_F; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
