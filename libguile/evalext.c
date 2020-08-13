@@ -65,6 +65,7 @@ scm_m_generalized_set_x (SCM xorig, SCM env SCM_UNUSED)
 		     scm_append (scm_list_2 (SCM_CDAR (x), SCM_CDR (x))));
   else
     scm_misc_error (scm_s_set_x, scm_s_variable, SCM_EOL);
+  return NULL; // warning C4715: not all control paths return a value
 }
 
 SCM_DEFINE (scm_definedp, "defined?", 1, 1, 0,

@@ -26,6 +26,7 @@ NUM2FLOAT (SCM num, unsigned long int pos, const char *s_caller)
     return SCM_REAL_VALUE (num);
   else
     scm_wrong_type_arg (s_caller, pos, num);
+  return 0; // warning C4715: not all control paths return a value
 }
 
 SCM

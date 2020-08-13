@@ -530,7 +530,9 @@ scm_init_guile_1 (SCM_STACKITEM *base)
   scm_init_regex_posix ();
 #endif
   scm_init_procs ();
+#ifndef __MSVC__
   scm_init_scmsigs ();
+#endif
 #ifdef HAVE_NETWORKING
   scm_init_net_db ();
   scm_init_socket ();
@@ -588,8 +590,9 @@ scm_init_guile_1 (SCM_STACKITEM *base)
 
   scm_init_rdelim ();
   scm_init_rw ();
+#ifndef __MSVC__
   scm_init_extensions ();
-
+#endif
   scm_load_startup_files ();
 }
 
@@ -613,9 +616,9 @@ scm_boot_guile_1 (SCM_STACKITEM *base, struct main_func_closure *closure)
 
   scm_set_program_arguments (closure->argc, closure->argv, 0);
   invoke_main_func (closure);
-
+#ifndef __MSVC__
   scm_restore_signals ();
-
+#endif
   /* This tick gives any pending
    * asyncs a chance to run.  This must be done after
    * the call to scm_restore_signals.

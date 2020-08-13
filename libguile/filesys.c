@@ -190,7 +190,7 @@ SCM_DEFINE (scm_chown, "chown", 3, 0, 0,
 #undef FUNC_NAME
 #endif /* HAVE_CHOWN */
 
-
+#ifndef __MSVC__
 SCM_DEFINE (scm_chmod, "chmod", 2, 0, 0,
             (SCM object, SCM mode),
 	    "Changes the permissions of the file referred to by @var{obj}.\n"
@@ -250,7 +250,7 @@ SCM_DEFINE (scm_umask, "umask", 0, 1, 0,
   return SCM_MAKINUM (mask);
 }
 #undef FUNC_NAME
-
+#endif
 
 
 SCM_DEFINE (scm_open_fdes, "open-fdes", 2, 1, 0, 
@@ -654,7 +654,7 @@ SCM_DEFINE (scm_delete_file, "delete-file", 1, 0, 0,
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
-
+#ifndef __MSVC__
 #ifdef HAVE_MKDIR
 SCM_DEFINE (scm_mkdir, "mkdir", 1, 1, 0,
             (SCM path, SCM mode),
@@ -704,7 +704,7 @@ SCM_DEFINE (scm_rmdir, "rmdir", 1, 0, 0,
 }
 #undef FUNC_NAME
 #endif
-
+#endif
 
 
 /* {Examining Directories}
@@ -723,7 +723,7 @@ SCM_DEFINE (scm_directory_stream_p, "directory-stream?", 1, 0, 0,
 }
 #undef FUNC_NAME
 
-
+#ifndef __MSVC__
 SCM_DEFINE (scm_opendir, "opendir", 1, 0, 0, 
             (SCM dirname),
 	    "Open the directory specified by @var{path} and return a directory\n"
@@ -804,7 +804,7 @@ SCM_DEFINE (scm_closedir, "closedir", 1, 0, 0,
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
-
+#endif
 
 static int 
 scm_dir_print (SCM exp, SCM port, scm_print_state *pstate SCM_UNUSED)
@@ -818,6 +818,7 @@ scm_dir_print (SCM exp, SCM port, scm_print_state *pstate SCM_UNUSED)
   return 1;
 }
 
+#ifndef __MSVC__
 
 static size_t 
 scm_dir_free (SCM p)
@@ -880,7 +881,7 @@ SCM_DEFINE (scm_getcwd, "getcwd", 0, 0, 0,
 }
 #undef FUNC_NAME
 #endif /* HAVE_GETCWD */
-
+#endif
 
 
 #ifdef HAVE_SELECT
@@ -1230,7 +1231,7 @@ SCM_DEFINE (scm_fcntl, "fcntl", 2, 1, 0,
 }
 #undef FUNC_NAME
 #endif /* HAVE_FCNTL */
-
+#ifndef __MSVC__
 SCM_DEFINE (scm_fsync, "fsync", 1, 0, 0, 
             (SCM object),
 	    "Copies any unwritten data for the specified output file descriptor to disk.\n"
@@ -1258,7 +1259,7 @@ SCM_DEFINE (scm_fsync, "fsync", 1, 0, 0,
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
-
+#endif
 #ifdef HAVE_SYMLINK
 SCM_DEFINE (scm_symlink, "symlink", 2, 0, 0,
             (SCM oldpath, SCM newpath),
@@ -1498,7 +1499,9 @@ void
 scm_init_filesys ()
 {
   scm_tc16_dir = scm_make_smob_type ("directory", 0);
+#ifndef __MSVC__
   scm_set_smob_free (scm_tc16_dir, scm_dir_free);
+#endif
   scm_set_smob_print (scm_tc16_dir, scm_dir_print);
 
   scm_dot_string = scm_permanent_object (scm_makfrom0str ("."));

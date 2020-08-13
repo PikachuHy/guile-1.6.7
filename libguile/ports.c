@@ -1357,19 +1357,20 @@ SCM_DEFINE (scm_seek, "seek", 3, 0, 0,
 #undef FUNC_NAME
 
 #ifdef __MINGW32__
+// fix: error: conflicting types for 'truncate'
 /* Define this function since it is not supported under Windows. */
-static int truncate (char *file, int length)
-{
-  int ret = -1, fdes;
-  if ((fdes = open (file, O_BINARY | O_WRONLY)) != -1)
-    {
-      ret = chsize (fdes, length);
-      close (fdes);
-    }
-  return ret;
-}
+//static int truncate (char *file, int length)
+//{
+//  int ret = -1, fdes;
+//  if ((fdes = open (file, O_BINARY | O_WRONLY)) != -1)
+//    {
+//      ret = chsize (fdes, length);
+//      close (fdes);
+//    }
+//  return ret;
+//}
 #endif /* __MINGW32__ */
-
+#ifndef __MSVC__
 SCM_DEFINE (scm_truncate_file, "truncate-file", 1, 1, 0,
             (SCM object, SCM length),
 	    "Truncates the object referred to by @var{object} to at most\n"
@@ -1428,7 +1429,7 @@ SCM_DEFINE (scm_truncate_file, "truncate-file", 1, 1, 0,
   return SCM_UNSPECIFIED;
 }
 #undef FUNC_NAME
-
+#endif
 SCM_DEFINE (scm_port_line, "port-line", 1, 0, 0,
             (SCM port),
 	    "Return the current line number for @var{port}.")

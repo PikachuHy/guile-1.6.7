@@ -73,12 +73,12 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
-
+#ifndef __MSVC__
 #if !defined (HAVE_H_ERRNO) && !defined (__MINGW32__)
 /* h_errno not found in netdb.h, maybe this will help.  */
 extern int h_errno;
 #endif
-
+#endif
 
 
 SCM_SYMBOL (scm_host_not_found_key, "host-not-found");

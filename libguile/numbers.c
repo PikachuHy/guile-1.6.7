@@ -129,6 +129,7 @@ SCM_DEFINE (scm_odd_p, "odd?", 1, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (1, n);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -146,6 +147,7 @@ SCM_DEFINE (scm_even_p, "even?", 1, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (1, n);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -258,6 +260,7 @@ scm_quotient (SCM x, SCM y)
   } else {
     SCM_WTA_DISPATCH_2 (g_quotient, x, y, SCM_ARG1, s_quotient);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 
 
@@ -310,6 +313,7 @@ scm_remainder (SCM x, SCM y)
   } else {
     SCM_WTA_DISPATCH_2 (g_remainder, x, y, SCM_ARG1, s_remainder);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 
 
@@ -358,6 +362,7 @@ scm_modulo (SCM x, SCM y)
   } else {
     SCM_WTA_DISPATCH_2 (g_modulo, x, y, SCM_ARG1, s_modulo);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 
 
@@ -824,6 +829,7 @@ SCM_DEFINE1 (scm_logand, "logand", scm_tc7_asubr,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, n1);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -909,6 +915,7 @@ SCM_DEFINE1 (scm_logior, "logior", scm_tc7_asubr,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, n1);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -981,6 +988,7 @@ SCM_DEFINE1 (scm_logxor, "logxor", scm_tc7_asubr,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, n1);
   }
+  return NULL; // warning C4715:  not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -1035,6 +1043,7 @@ SCM_DEFINE (scm_logtest, "logtest", 2, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, j);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -1087,6 +1096,7 @@ SCM_DEFINE (scm_logbit_p, "logbit?", 2, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG2, j);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -1277,6 +1287,7 @@ SCM_DEFINE (scm_bit_extract, "bit-extract", 3, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, n);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -1331,6 +1342,7 @@ SCM_DEFINE (scm_logcount, "logcount", 1, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, n);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -1385,6 +1397,7 @@ SCM_DEFINE (scm_integer_length, "integer-length", 1, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARG1, n);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -2210,6 +2223,7 @@ SCM_DEFINE (scm_number_to_string, "number->string", 1, 1, 0,
   } else {
     SCM_WRONG_TYPE_ARG (1, n);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -3680,6 +3694,7 @@ scm_num2dbl (SCM a, const char *why)
   } else {
     SCM_WRONG_TYPE_ARG (SCM_ARGn, a);
   }
+  return 0; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -3887,6 +3902,7 @@ scm_divide (SCM x, SCM y)
   } else {
     SCM_WTA_DISPATCH_2 (g_divide, x, y, SCM_ARG1, s_divide);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 
@@ -4308,6 +4324,7 @@ SCM_DEFINE (scm_inexact_to_exact, "inexact->exact", 1, 0, 0,
   } else {
     SCM_WRONG_TYPE_ARG (1, z);
   }
+  return NULL; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 

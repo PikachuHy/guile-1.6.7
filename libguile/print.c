@@ -1101,6 +1101,7 @@ SCM_DEFINE (scm_get_print_state, "get-print-state", 1, 0, 0,
   if (SCM_OUTPUT_PORT_P (port))
     return SCM_BOOL_F;
   SCM_WRONG_TYPE_ARG (1, port);
+  return SCM_BOOL_F; // warning C4715: not all control paths return a value
 }
 #undef FUNC_NAME
 

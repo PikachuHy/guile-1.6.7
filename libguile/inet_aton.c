@@ -38,7 +38,7 @@ static char sccsid[] = "@(#)inet_addr.c	8.1 (Berkeley) 6/17/93";
 
 #include <ctype.h>
 
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__MSVC__)
 #include <winsock2.h>
 #else
 #include <sys/param.h>

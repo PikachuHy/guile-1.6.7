@@ -46,9 +46,27 @@ If you do not wish that, delete this exception notice.  */
 char *
 strerror (int errnum)
 {
+#ifdef __MINGW32__
+#ifdef _MSVCRT_
+    extern char *_sys_errlist[];
+  extern int _sys_nerr;
+#else
+#ifdef _UCRT
+    _CRTIMP char **__cdecl __sys_errlist(void);
+  _CRTIMP int *__cdecl __sys_nerr(void);
+#define _sys_nerr (*__sys_nerr())
+#define _sys_errlist (__sys_errlist())
+#else
+    extern __declspec(dllimport) char *_sys_errlist[1];
+    extern __declspec(dllimport) int _sys_nerr;
+#define sys_errlist _sys_errlist
+#define sys_nerr _sys_nerr
+#endif /* !_UCRT */
+#endif
+#else
   extern char *sys_errlist[];
   extern int sys_nerr;
-
+#endif
   if (errnum >= 0 && errnum < sys_nerr)
     return sys_errlist[errnum];
   return (char *) "Unknown error";

@@ -39,7 +39,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #else
 #define SCM_UNUSED
 #endif
-
+#ifdef __MINGW32__
+#define error_t int
+#endif
 #include "raw-ltdl.h"
 #include "raw-ltdl.c"
 

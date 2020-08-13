@@ -76,6 +76,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #else
+#ifdef __MSVC__
+#include <io.h>
+#endif
 #ifndef ttyname
 extern char *ttyname();
 #endif
@@ -99,7 +102,7 @@ extern char *ttyname();
 #include <winsock2.h>
 #endif
 
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__MSVC__)
 /* Some defines for Windows here. */
 # include <process.h>
 # define pipe(fd) _pipe (fd, 256, O_BINARY)
@@ -505,7 +508,7 @@ SCM_DEFINE (scm_waitpid, "waitpid", 1, 1, 0,
 #undef FUNC_NAME
 #endif /* HAVE_WAITPID */
 
-#ifndef __MINGW32__
+#if !(defined(__MINGW32__) || defined(__MSVC__))
 SCM_DEFINE (scm_status_exit_val, "status:exit-val", 1, 0, 0, 
             (SCM status),
 	    "Return the exit status value, as would be set if a process\n"
@@ -577,7 +580,7 @@ SCM_DEFINE (scm_getppid, "getppid", 0, 0, 0,
 #endif /* HAVE_GETPPID */
 
 
-#ifndef __MINGW32__
+#if !(defined(__MINGW32__) || defined(__MSVC__))
 SCM_DEFINE (scm_getuid, "getuid", 0, 0, 0,
             (),
 	    "Return an integer representing the current real user ID.")
@@ -1432,7 +1435,7 @@ SCM_DEFINE (scm_chroot, "chroot", 1, 0, 0,
 #endif /* HAVE_CHROOT */
 
 
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__MSVC__)
 /* Wrapper function to supplying `getlogin()' under Windows.  */
 static char * getlogin (void)
 {
@@ -1667,7 +1670,9 @@ SCM_DEFINE (scm_gethostname, "gethostname", 0, 0, 0,
 void 
 scm_init_posix ()
 {
+#ifndef __MSVC__
   scm_add_feature ("posix");
+#endif
 #ifdef HAVE_GETEUID
   scm_add_feature ("EIDs");
 #endif

@@ -67,7 +67,7 @@ size_t fwrite ();
 
 #include "libguile/iselect.h"
 /* Some defines for Windows. */
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__MSVC__)
 # include <sys/stat.h>
 # include <winsock2.h>
 # define ftruncate(fd, size) chsize (fd, size)
@@ -353,7 +353,7 @@ SCM_DEFINE (scm_open_file, "open-file", 2, 0, 0,
 #undef FUNC_NAME
 
 
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__MSVC__)
 /*
  * Try getting the appropiate file flags for a given file descriptor
  * under Windows. This incorporates some fancy operations because Windows
@@ -410,7 +410,7 @@ scm_fdes_to_port (int fdes, char *mode, SCM name)
   int flags;
 
   /* test that fdes is valid.  */
-#ifdef __MINGW32__
+#if defined(__MINGW32__) || defined(__MSVC__)
   flags = getflags (fdes);
 #else
   flags = fcntl (fdes, F_GETFL, 0);
@@ -478,6 +478,7 @@ fport_input_waiting (SCM port)
   return FD_ISSET (fdes, &read_set) ? 1 : 0;
 #elif defined (FIONREAD)
   int remir;
+  // undefined reference to `ioctl'
   ioctl(fdes, FIONREAD, &remir);
   return remir;
 #else    
