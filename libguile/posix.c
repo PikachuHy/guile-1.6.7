@@ -1670,7 +1670,7 @@ SCM_DEFINE (scm_gethostname, "gethostname", 0, 0, 0,
 void 
 scm_init_posix ()
 {
-#ifndef __MSVC__
+#if !(defined(__MSVC__) || defined(__MINGW32__))
   scm_add_feature ("posix");
 #endif
 #ifdef HAVE_GETEUID
