@@ -13,7 +13,9 @@ else()
     message("find python " ${PYTHON_PATH})
 endif()
 include(cmake/AutotoolCheck.cmake)
-find_package(Math REQUIRED)
+if (NOT WIN32)
+    find_package(Math REQUIRED)
+endif ()
 add_library(guile)
 target_compile_definitions(guile PUBLIC -DHAVE_CONFIG_H)
 target_include_directories(guile PUBLIC ${guile_SOURCE_DIR} ${guile_BINARY_DIR} ${guile_SOURCE_DIR}/libguile-ltdl)
@@ -86,27 +88,19 @@ else()
             --other ${common_options}
     )
 endif ()
-add_executable(guile-main libguile/guile.c)
-target_link_libraries(guile-main guile)
-if (NOT MSVC)
-    target_link_libraries(guile-main dl)
-endif ()
-target_include_directories(guile-main PRIVATE ${guile_SOURCE_DIR} ${guile_BINARY_DIR} ${guile_SOURCE_DIR}/libguile-ltdl)
-if (MSVC)
-    message(INFO "MSVC")
-    target_compile_definitions(guile PUBLIC -D__MSVC__)
-else()
-    target_link_libraries(guile-main Math::Math)
-endif ()
 if (WIN32)
-    # undefined reference to `crypt'
-    # undefined reference to `regfree'
-    target_link_libraries(guile-main ws2_32)
+    target_link_libraries(guile PUBLIC ws2_32)
     if (NOT MSVC)
-        target_link_libraries(guile-main regex)
+        target_link_libraries(guile PUBLIC regex)
     endif ()
 else()
-    target_link_libraries(guile-main crypt)
+    target_link_libraries(guile PUBLIC crypt)
+endif ()
+if (MSVC)
+    target_compile_definitions(guile PUBLIC -D__MSVC__)
+endif ()
+if (NOT MSVC)
+    target_link_libraries(guile PUBLIC dl)
 endif ()
 target_sources(
         guile PRIVATE
@@ -235,4 +229,25 @@ else (NOT MSVC)
             libguile/extensions.c
             libguile-ltdl/guile-ltdl.c
     )
+endif ()
+if (${CMAKE_SOURCE_DIR} STREQUAL ${guile_SOURCE_DIR})
+    add_subdirectory(examples)
+    add_executable(guile-main libguile/guile.c)
+    target_link_libraries(guile-main guile)
+    set_target_properties(guile-main PROPERTIES OUTPUT_NAME guile)
+    if (MSVC)
+        add_custom_target(test-all
+                COMMAND ${PYTHON_PATH} ${guile_SOURCE_DIR}/cmake/test_all.py
+                --srcdir ${guile_SOURCE_DIR}
+                --dstdir ${guile_BINARY_DIR}
+                --msvc
+                )
+    else()
+        add_custom_target(test-all
+                COMMAND ${PYTHON_PATH} ${guile_SOURCE_DIR}/cmake/test_all.py
+                --srcdir ${guile_SOURCE_DIR}
+                --dstdir ${guile_BINARY_DIR}
+                )
+    endif ()
+    add_dependencies(test-all guile-main box)
 endif ()
