@@ -55,6 +55,7 @@ if (WIN32)
     # undefined reference to `crypt'
     unset(HAVE_CRYPT)
     set(HAVE_SELECT 1)
+    unset(DYNAMIC_LINKING)
 elseif(MSVC)
     unset(HAVE_UNISTD_H)
 endif ()
@@ -99,7 +100,7 @@ endif ()
 if (MSVC)
     target_compile_definitions(guile PUBLIC -D__MSVC__)
 endif ()
-if (NOT MSVC)
+if (NOT WIN32)
     target_link_libraries(guile PUBLIC dl)
 endif ()
 target_sources(
@@ -219,7 +220,16 @@ if(MSVC)
             msvc/dynl.c
             msvc/regex-cpp.cpp
             )
-else (NOT MSVC)
+elseif (WIN32)
+    target_sources(
+            guile PRIVATE
+            libguile/regex-posix.c
+            libguile/posix.c
+            libguile/dynl.c
+            libguile/scmsigs.c
+            libguile/extensions.c
+    )
+else()
     target_sources(
             guile PRIVATE
             libguile/regex-posix.c
