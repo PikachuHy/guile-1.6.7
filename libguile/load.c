@@ -207,7 +207,7 @@ scm_internal_parse_path (char *path, SCM tail)
       do {
 	/* Scan back to the beginning of the current element.  */
 	do scan--;
-#ifdef __MSVC__
+#if defined(__MSVC__) || defined(__MINGW32__)
 	while (scan >= path && *scan != ';');
 #else
 	while (scan >= path && *scan != ':');
